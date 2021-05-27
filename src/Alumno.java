@@ -5,7 +5,7 @@ public abstract class Alumno extends Persona {
     //Atributos
     private int curso;
     private String nivelAcademico = "";
-    private ArrayList<String> asignaturas;
+    private ArrayList<Asignatura> asignaturas;
 
     //Métodos
     public Alumno(){}
@@ -18,7 +18,7 @@ public abstract class Alumno extends Persona {
         return nivelAcademico;
     }
 
-    public ArrayList<String> getListaAsignaturas(){
+    public ArrayList<Asignatura> getListaAsignaturas(){
         return asignaturas;
     }
 
@@ -30,7 +30,7 @@ public abstract class Alumno extends Persona {
         this.nivelAcademico = nivelAcademico;
     }
 
-    public void setListaAsignaturas(ArrayList<String> asignaturas){
+    public void setListaAsignaturas(ArrayList<Asignatura> asignaturas){
         this.asignaturas = asignaturas;
     }
 

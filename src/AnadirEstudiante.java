@@ -1,9 +1,11 @@
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 
 //Al heredar de JDialog, es un JDialog
-public class AnadirEstudiante extends JDialog {
+public class AnadirEstudiante extends JFrame {
     private JPanel pnlPrincipal;
     private JLabel lblEstudiante;
     private JLabel lblDni;
@@ -23,12 +25,30 @@ public class AnadirEstudiante extends JDialog {
     private JTextField txtNombre;
 
 
-    public AnadirEstudiante() {
+    public AnadirEstudiante(JPanel pnlListado) {
         //Heredamos los métodos de JDialog
         setTitle("Añadir estudiante");
         setContentPane(pnlPrincipal);
         pack();
         setVisible(true);
+
+
+        btnAceptar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                if (rbtnPresencial.isSelected()){
+                    ArrayList<Asignatura> listaAsignaturas;
+
+                    String dni = txtDni.getText();
+                    String nombre = txtNombre.getText();
+                    int curso = spnCurso.getComponentCount();
+                    listaAsignaturas = (ArrayList<Asignatura>) lstAsignaturas.getSelectedValuesList();
+                    Alumno alumno = new Presencial(dni, nombre, curso, listaAsignaturas);
+
+
+                }
+            }
+        });
     }
 
 }

@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.Arrays;
 
 public class Presencial extends Alumno{
@@ -8,7 +9,14 @@ public class Presencial extends Alumno{
     private double plusPorConvocatoria;
 
     //Métodos
-    public Presencial(){}
+    public Presencial(String dni, String nombre, int curso, ArrayList<Asignatura> listaAsignaturas){
+        setDni(dni);
+        setNombre(nombre);
+        setCurso(curso);
+        setListaAsignaturas(listaAsignaturas);
+        //setConvocatoria??????
+
+    }
 
     @Override
     public double pagoMensual() {

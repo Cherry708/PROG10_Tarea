@@ -12,7 +12,7 @@ public class Aplicacion {
     private JPanel pnlListado;
 
     //Ventana añadirEstudiante
-    private JDialog anadirEstudiante;
+    private JFrame anadirEstudiante;
 
     public Aplicacion(){
         txtBuscar.addActionListener(new ActionListener() {
@@ -35,7 +35,8 @@ public class Aplicacion {
             public void actionPerformed(ActionEvent actionEvent) {
                 if (cmbOpcion.getSelectedIndex() == 0){
                     //AñadirEstudiante hereda de JDialog
-                    anadirEstudiante = new AnadirEstudiante();
+                    //Instanciamos AñadirEstudiante
+                    anadirEstudiante = new AnadirEstudiante(pnlListado);
                     //Ventana añadirEstudiante
                 } else if(cmbOpcion.getSelectedIndex() == 1){
                     //Ventana añadirProfesor
