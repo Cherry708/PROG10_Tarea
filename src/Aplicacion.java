@@ -16,8 +16,8 @@ public class Aplicacion {
     private JFrame anadirEstudiante;
 
     public Aplicacion(){
-        pnlListado = new JPanel(new BorderLayout());
-        pnlListado.setVisible(true);
+        //NO ERA NECESARIO INSTANCIARLO, AL HACERLO SE ¿SOBREESCRIBIA?
+        pnlListado.setLayout(new GridLayout(10,5));
 
         txtBuscar.addActionListener(new ActionListener() {
             @Override
@@ -40,6 +40,7 @@ public class Aplicacion {
                 if (cmbOpcion.getSelectedIndex() == 0){
                     //AñadirEstudiante hereda de JDialog
                     //Instanciamos AñadirEstudiante
+                    //El parámetro de entrada debe ser un arraylist de alumnos
                     anadirEstudiante = new AnadirEstudiante(pnlListado);
                     //Ventana añadirEstudiante
                 } else if(cmbOpcion.getSelectedIndex() == 1){
@@ -50,19 +51,16 @@ public class Aplicacion {
             }
         });
 
-
+        /*
         btnRecargar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                JButton boton = new JButton();
-                boton.setText("Dni del alumno");
-                pnlListado.add(boton);
-                pnlListado.setSize(100,100);
-                pnlListado.setBackground(new Color(255,255,0));
-                pnlListado.doLayout();
+                pnlListado.add(new JButton("Boton"));
+                pnlListado.setBackground(new Color(255));
                 System.out.println("Entrado");
             }
         });
+         */
     }
     public static void main(String[] args) {
         JFrame frame = new JFrame("Aplicacion");
