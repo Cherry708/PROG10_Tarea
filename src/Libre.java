@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 public class Libre extends Alumno {
 
     //Atributos
@@ -6,6 +8,14 @@ public class Libre extends Alumno {
 
     //Métodos
     public Libre(){}
+
+    public Libre(String dni, String nombre, int curso, String nivelAcademico, ArrayList<Asignatura> listaAsignaturas){
+        setDni(dni);
+        setNombre(nombre);
+        setCurso(curso);
+        setNivelAcademico(nivelAcademico);
+        setListaAsignaturas(listaAsignaturas);
+    }
 
     public int getNumeroHorasDiarias(){
         return numeroHorasDiarias;

@@ -1,6 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.util.ArrayList;
 
 public class Aplicacion {
 
@@ -16,8 +17,26 @@ public class Aplicacion {
     private JFrame anadirEstudiante;
 
     public Aplicacion(){
+
+        //Componentes de la lista de alumnos
+        JTextField txtDni = new JTextField();
+        JTextField txtNombre = new JTextField();
+        JTextField txtCurso = new JTextField();
+        JComboBox cmbAsignaturas = new JComboBox();
+
+
+        //Declaramos e instanciamos las listas que usaremos
+        ArrayList<Alumno> listaAlumnos = new ArrayList<>();
+
         //NO ERA NECESARIO INSTANCIARLO, AL HACERLO SE ¿SOBREESCRIBIA?
         pnlListado.setLayout(new GridLayout(10,5));
+
+        // Añadir componente
+        /* Añadir componente
+        JTextField textField = new JTextField();
+        textField.setText("Texto");
+        pnlListado.add(textField, 0, 0);
+         */
 
         txtBuscar.addActionListener(new ActionListener() {
             @Override
@@ -29,11 +48,13 @@ public class Aplicacion {
             public void actionPerformed(ActionEvent actionEvent) {
             }
         });
+
         cmbOpcion.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
             }
-        });
+        }); //Parece finalizado
+
         btnAñadir.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
@@ -41,7 +62,8 @@ public class Aplicacion {
                     //AñadirEstudiante hereda de JDialog
                     //Instanciamos AñadirEstudiante
                     //El parámetro de entrada debe ser un arraylist de alumnos
-                    anadirEstudiante = new AnadirEstudiante(pnlListado);
+                    anadirEstudiante = new AnadirEstudiante(listaAlumnos);
+
                     //Ventana añadirEstudiante
                 } else if(cmbOpcion.getSelectedIndex() == 1){
                     //Ventana añadirProfesor
@@ -50,6 +72,8 @@ public class Aplicacion {
                 }
             }
         });
+
+
 
         /*
         btnRecargar.addActionListener(new ActionListener() {
@@ -61,6 +85,22 @@ public class Aplicacion {
             }
         });
          */
+
+        btnRecargar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                txtDni.setText(listaAlumnos.get(0).getDni());
+                txtNombre.setText(listaAlumnos.get(0).getNombre());
+                txtCurso.setText(String.valueOf(listaAlumnos.get(0).getCurso()));
+                //cmbAsignaturas
+
+                pnlListado.add(txtDni, 0, 0);
+                pnlListado.add(txtNombre, 1, 0);
+                pnlListado.add(txtCurso, 2, 0);
+
+                pnlListado.doLayout();
+            }
+        });
     }
     public static void main(String[] args) {
         JFrame frame = new JFrame("Aplicacion");

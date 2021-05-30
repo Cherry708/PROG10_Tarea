@@ -23,9 +23,16 @@ public class AnadirEstudiante extends JFrame {
     private JButton btnCancelar;
     private JSpinner spnCurso;
     private JTextField txtNombre;
+    private JTextField txtNivelAcademico;
+    private JLabel lblNivel;
 
 
-    public AnadirEstudiante(JPanel pnlListado) {
+
+    public AnadirEstudiante(ArrayList<Alumno> listaAlumnos) {
+
+
+
+
         //Heredamos los métodos de JDialog
         setTitle("Añadir estudiante");
         setContentPane(pnlPrincipal);
@@ -36,22 +43,31 @@ public class AnadirEstudiante extends JFrame {
         btnAceptar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
+
+                String dni;
+                String nombre;
+                String nivelAcademico;
+                int curso;
+                ArrayList<Asignatura> listaAsignaturas;
+                Alumno alumno;
+
                 if (rbtnPresencial.isSelected()){
-                    ArrayList<Asignatura> listaAsignaturas;
 
-                    String dni = txtDni.getText();
-                    String nombre = txtNombre.getText();
-                    int curso = spnCurso.getComponentCount();
+                    dni = txtDni.getText();
+                    nombre = txtNombre.getText();
+                    nivelAcademico = txtNivelAcademico.getText();
+                    curso = spnCurso.getComponentCount();
                     listaAsignaturas = (ArrayList<Asignatura>) lstAsignaturas.getSelectedValuesList();
-                    Alumno alumno = new Presencial(dni, nombre, curso, listaAsignaturas);
+                    alumno = new Presencial(dni, nombre, curso, nivelAcademico, listaAsignaturas);
+                    listaAlumnos.add(alumno);
 
-
-
+                    dispose();
                     //Como añadir los componentes a la ventana de aplicación??????
 
                 }
             }
         });
     }
+
 
 }
