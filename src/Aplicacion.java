@@ -91,6 +91,10 @@ public class Aplicacion {
         });
          */
 
+        /*
+        Al pulsar dos veces se volverán a añadir los mismos componentes? No parece
+        Bucle que recorra la lista y añada los componentes
+         */
         btnRecargar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -98,7 +102,6 @@ public class Aplicacion {
                 txtNombre.setText(listaAlumnos.get(0).getNombre());
                 txtCurso.setText(String.valueOf(listaAlumnos.get(0).getCurso()));
                 //cmbAsignaturas
-
                 pnlListado.add(txtDni, 0);
                 pnlListado.add(txtNombre, 1, 0);
                 pnlListado.add(txtCurso, 2, 0);
