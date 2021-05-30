@@ -101,7 +101,8 @@ public class Aplicacion {
                 txtDni.setText(listaAlumnos.get(0).getDni());
                 txtNombre.setText(listaAlumnos.get(0).getNombre());
                 txtCurso.setText(String.valueOf(listaAlumnos.get(0).getCurso()));
-                //cmbAsignaturas
+                //cmbAsignaturas, como añado las asignaturas? Puede que sea bucle con .addItem
+
                 pnlListado.add(txtDni, 0);
                 pnlListado.add(txtNombre, 1, 0);
                 pnlListado.add(txtCurso, 2, 0);
