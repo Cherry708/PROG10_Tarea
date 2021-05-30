@@ -29,7 +29,12 @@ public class Aplicacion {
         ArrayList<Alumno> listaAlumnos = new ArrayList<>();
 
         //NO ERA NECESARIO INSTANCIARLO, AL HACERLO SE ¿SOBREESCRIBIA?
-        pnlListado.setLayout(new GridLayout(10,5));
+        int filas = 10;
+        int columnas = 5;
+        GridLayout layout = new GridLayout();
+        layout.setRows(filas);
+        layout.setColumns(columnas);
+        pnlListado.setLayout(layout);
 
         // Añadir componente
         /* Añadir componente
@@ -94,7 +99,7 @@ public class Aplicacion {
                 txtCurso.setText(String.valueOf(listaAlumnos.get(0).getCurso()));
                 //cmbAsignaturas
 
-                pnlListado.add(txtDni, 0, 0);
+                pnlListado.add(txtDni, 0);
                 pnlListado.add(txtNombre, 1, 0);
                 pnlListado.add(txtCurso, 2, 0);
 
