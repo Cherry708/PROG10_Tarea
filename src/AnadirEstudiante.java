@@ -45,6 +45,8 @@ public class AnadirEstudiante extends JFrame {
                     listaAsignaturas = (ArrayList<Asignatura>) lstAsignaturas.getSelectedValuesList();
                     Alumno alumno = new Presencial(dni, nombre, curso, listaAsignaturas);
 
+
+
                     //Como añadir los componentes a la ventana de aplicación??????
 
                 }

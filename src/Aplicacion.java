@@ -1,6 +1,6 @@
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.*;
+import java.awt.event.*;
 
 public class Aplicacion {
 
@@ -10,11 +10,15 @@ public class Aplicacion {
     private JButton btnBuscar;
     private JComboBox cmbOpcion;
     private JPanel pnlListado;
+    private JButton btnRecargar;
 
     //Ventana añadirEstudiante
     private JFrame anadirEstudiante;
 
     public Aplicacion(){
+        pnlListado = new JPanel(new BorderLayout());
+        pnlListado.setVisible(true);
+
         txtBuscar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
@@ -43,6 +47,20 @@ public class Aplicacion {
                 } else if(cmbOpcion.getSelectedIndex() == 2){
                     //Ventana añadirAsigntura
                 }
+            }
+        });
+
+
+        btnRecargar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                JButton boton = new JButton();
+                boton.setText("Dni del alumno");
+                pnlListado.add(boton);
+                pnlListado.setSize(100,100);
+                pnlListado.setBackground(new Color(255,255,0));
+                pnlListado.doLayout();
+                System.out.println("Entrado");
             }
         });
     }
