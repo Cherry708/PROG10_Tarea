@@ -110,16 +110,33 @@ public class Aplicacion {
                 pnlListado.add(new JLabel("Curso"));
                 pnlListado.add(new JLabel("Nivel académico"));
                 pnlListado.add(new JLabel("Asignaturas"));
+                pnlListado.add(new JLabel(""));
+                pnlListado.add(new JLabel(""));
+
+
+                //Almacenamos los dni de los alumnos en un arrayList de JTextField para luego poder configurarlos
+                ArrayList<JTextField> txtListaDni = new ArrayList<>();
+                ArrayList<JTextField> txtListaNombre = new ArrayList<>();
+                ArrayList<JTextField> txtListaNivelAcademico = new ArrayList<>();
+                JList lstAsignaturas = new JList();
+
+                for (Alumno alumno : listaAlumnos){
+                    txtListaDni.add(new JTextField(alumno.getDni()));
+                }
+
+                int index = 0;
                 for (Alumno alumno : listaAlumnos){ //Se añade toda la lista
                     //cmbAsignaturas, como añado las asignaturas? Puede que sea bucle con .addItem
-                    pnlListado.add(new JTextField(alumno.getDni()));
+                    pnlListado.add(txtListaDni.get(index));
                     pnlListado.add(new JTextField(alumno.getNombre()));
                     pnlListado.add(new JTextField(alumno.getCurso()));
                     pnlListado.add(new JTextField(alumno.getNivelAcademico()));
                     pnlListado.add(new JList<Asignatura>());
                     pnlListado.add(new JButton("EditarNOFUNCIONA"));
                     pnlListado.add(new JButton("EliminarNOFUNCIONA"));
+                    index++;
 
+                    System.out.println(alumno.getCurso());
                     /*Los JTextField no se pueden configurar como no editables porque no se pueden declarar,
                     y al usar .setEditable(false) el tipo de dato devuelto es distinto al que queremos guardar en el
                     GridLayout. Si declaramos los JTextField no se podrán añadir nuevos componentes porque estaremos
@@ -127,7 +144,8 @@ public class Aplicacion {
                      */
 
                 }
-
+                //Obtenemos el componente txt y lo configuramos
+                txtListaDni.get(0).setEnabled(false);
                 pnlListado.doLayout(); //Dibujamos el panel
 
                 /*

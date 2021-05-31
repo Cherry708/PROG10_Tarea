@@ -56,7 +56,7 @@ public class AnadirEstudiante extends JFrame {
                     dni = txtDni.getText();
                     nombre = txtNombre.getText();
                     nivelAcademico = txtNivelAcademico.getText();
-                    curso = spnCurso.getComponentCount();
+                    curso = (int) spnCurso.getValue();
                     listaAsignaturas = (ArrayList<Asignatura>) lstAsignaturas.getSelectedValuesList();
                     alumno = new Presencial(dni, nombre, curso, nivelAcademico, listaAsignaturas);
                     listaAlumnos.add(alumno);
