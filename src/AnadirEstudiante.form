@@ -3,7 +3,7 @@
   <grid id="27dc6" binding="pnlPrincipal" layout-manager="GridLayoutManager" row-count="10" column-count="4" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
     <margin top="0" left="0" bottom="0" right="0"/>
     <constraints>
-      <xy x="20" y="20" width="525" height="400"/>
+      <xy x="20" y="20" width="543" height="400"/>
     </constraints>
     <properties/>
     <border type="none"/>
@@ -46,7 +46,10 @@
             <preferred-size width="150" height="-1"/>
           </grid>
         </constraints>
-        <properties/>
+        <properties>
+          <editable value="true"/>
+          <enabled value="true"/>
+        </properties>
       </component>
       <component id="22d57" class="javax.swing.JTextField" binding="txtNombre">
         <constraints>
@@ -54,7 +57,10 @@
             <preferred-size width="150" height="-1"/>
           </grid>
         </constraints>
-        <properties/>
+        <properties>
+          <editable value="true"/>
+          <enabled value="true"/>
+        </properties>
       </component>
       <component id="c408b" class="javax.swing.JLabel" binding="lblAsignatura">
         <constraints>
@@ -72,7 +78,7 @@
         </constraints>
         <properties>
           <model>
-            <item value="Se debe rellenar con objetos Asignatura creados en ejecucion"/>
+            <item value="Programacion"/>
           </model>
         </properties>
       </component>
@@ -142,7 +148,9 @@
             <preferred-size width="150" height="-1"/>
           </grid>
         </constraints>
-        <properties/>
+        <properties>
+          <editable value="true"/>
+        </properties>
       </component>
       <component id="1d26f" class="javax.swing.JLabel" binding="lblNivel">
         <constraints>

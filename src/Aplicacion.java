@@ -1,4 +1,5 @@
 import javax.swing.*;
+import javax.swing.table.TableColumn;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
@@ -13,28 +14,31 @@ public class Aplicacion {
     private JPanel pnlListado;
     private JButton btnRecargar;
 
+
     //Ventana añadirEstudiante
     private JFrame anadirEstudiante;
 
+
     public Aplicacion(){
 
+        /*
         //Componentes de la lista de alumnos
         JTextField txtDni = new JTextField();
         JTextField txtNombre = new JTextField();
         JTextField txtCurso = new JTextField();
         JComboBox cmbAsignaturas = new JComboBox();
+        */
+
 
 
         //Declaramos e instanciamos las listas que usaremos
         ArrayList<Alumno> listaAlumnos = new ArrayList<>();
 
-        //NO ERA NECESARIO INSTANCIARLO, AL HACERLO SE ¿SOBREESCRIBIA?
-        int filas = 10;
-        int columnas = 5;
-        GridLayout layout = new GridLayout();
-        layout.setRows(filas);
-        layout.setColumns(columnas);
-        pnlListado.setLayout(layout);
+        //NO ERA NECESARIO INSTANCIAR pnlListado, AL HACERLO SE ¿SOBREESCRIBIA?
+
+        //Primero se rellenan filas y luego columnas, como se soluciona???
+        pnlListado.setLayout(new GridLayout(0, 5, 35,5));
+
 
         // Añadir componente
         /* Añadir componente
@@ -98,16 +102,44 @@ public class Aplicacion {
         btnRecargar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+
+                pnlListado.removeAll(); //Antes de añadir toda la lista vaciamos el panel para evitar duplicados
+
+                pnlListado.add(new JLabel("DNI"));
+                pnlListado.add(new JLabel("Nombre"));
+                pnlListado.add(new JLabel("Curso"));
+                pnlListado.add(new JLabel("Nivel académico"));
+                pnlListado.add(new JLabel("Asignaturas"));
+                for (Alumno alumno : listaAlumnos){ //Se añade toda la lista
+                    //cmbAsignaturas, como añado las asignaturas? Puede que sea bucle con .addItem
+                    pnlListado.add(new JTextField(alumno.getDni()));
+                    pnlListado.add(new JTextField(alumno.getNombre()));
+                    pnlListado.add(new JTextField(alumno.getCurso()));
+                    pnlListado.add(new JTextField(alumno.getNivelAcademico()));
+                    pnlListado.add(new JList<Asignatura>());
+
+
+                    /*Los JTextField no se pueden configurar como no editables porque no se pueden declarar,
+                    y al usar .setEditable(false) el tipo de dato devuelto es distinto al que queremos guardar en el
+                    GridLayout. Si declaramos los JTextField no se podrán añadir nuevos componentes porque estaremos
+                    sobreescribiendo los objetos
+                     */
+
+                }
+
+                pnlListado.doLayout(); //Dibujamos el panel
+
+                /*
                 txtDni.setText(listaAlumnos.get(0).getDni());
                 txtNombre.setText(listaAlumnos.get(0).getNombre());
                 txtCurso.setText(String.valueOf(listaAlumnos.get(0).getCurso()));
                 //cmbAsignaturas, como añado las asignaturas? Puede que sea bucle con .addItem
 
-                pnlListado.add(txtDni, 0);
-                pnlListado.add(txtNombre, 1, 0);
-                pnlListado.add(txtCurso, 2, 0);
-
+                pnlListado.add(txtDni, 0, 0);
+                pnlListado.add(txtNombre, 0, 0);
+                pnlListado.add(txtCurso, 0, 0);
                 pnlListado.doLayout();
+                */
             }
         });
     }
