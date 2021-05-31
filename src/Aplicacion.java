@@ -37,7 +37,7 @@ public class Aplicacion {
         //NO ERA NECESARIO INSTANCIAR pnlListado, AL HACERLO SE ¿SOBREESCRIBIA?
 
         //Primero se rellenan filas y luego columnas, como se soluciona???
-        pnlListado.setLayout(new GridLayout(0, 5, 35,5));
+        pnlListado.setLayout(new GridLayout(0, 7, 35,5));
 
 
         // Añadir componente
@@ -117,7 +117,8 @@ public class Aplicacion {
                     pnlListado.add(new JTextField(alumno.getCurso()));
                     pnlListado.add(new JTextField(alumno.getNivelAcademico()));
                     pnlListado.add(new JList<Asignatura>());
-
+                    pnlListado.add(new JButton("EditarNOFUNCIONA"));
+                    pnlListado.add(new JButton("EliminarNOFUNCIONA"));
 
                     /*Los JTextField no se pueden configurar como no editables porque no se pueden declarar,
                     y al usar .setEditable(false) el tipo de dato devuelto es distinto al que queremos guardar en el
