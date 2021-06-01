@@ -30,9 +30,6 @@ public class AnadirEstudiante extends JFrame {
 
     public AnadirEstudiante(ArrayList<Alumno> listaAlumnos) {
 
-
-
-
         //Heredamos los métodos de JDialog
         setTitle("Añadir estudiante");
         setContentPane(pnlPrincipal);
