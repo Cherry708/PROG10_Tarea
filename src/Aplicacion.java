@@ -1,3 +1,5 @@
+import jdk.swing.interop.SwingInterOpUtils;
+
 import javax.swing.*;
 import javax.swing.table.TableColumn;
 import java.awt.*;
@@ -35,7 +37,7 @@ public class Aplicacion {
 
 
         //Declaramos e instaciamos los layouts que utilizaremos
-        GridLayout layoutEstudiante = new GridLayout(0,7,5,5);
+        GridLayout layoutEstudiante = new GridLayout(0,7,10,5);
 
         //Declaramos e instanciamos las listas de alumnos, profesores y asignaturas
         ArrayList<Alumno> listaAlumnos = new ArrayList<>();
@@ -68,8 +70,6 @@ public class Aplicacion {
 
         //NO ERA NECESARIO INSTANCIAR pnlListado, AL HACERLO SE ¿SOBREESCRIBIA?
 
-        //Primero se rellenan filas y luego columnas, como se soluciona???
-        pnlListado.setLayout(new GridLayout(0, 7, 5,5));
 
 
         // Añadir componente
@@ -107,25 +107,12 @@ public class Aplicacion {
 
                     //Ventana añadirEstudiante
                 } else if(cmbOpcion.getSelectedIndex() == 1){
-                    //Ventana añadirProfesor
+
                 } else if(cmbOpcion.getSelectedIndex() == 2){
                     //Ventana añadirAsigntura
                 }
             }
         });
-
-
-
-        /*
-        btnRecargar.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent actionEvent) {
-                pnlListado.add(new JButton("Boton"));
-                pnlListado.setBackground(new Color(255));
-                System.out.println("Entrado");
-            }
-        });
-         */
 
         /*
         Al pulsar dos veces se volverán a añadir los mismos componentes? No parece
@@ -149,42 +136,69 @@ public class Aplicacion {
                 pnlListado.add(new JLabel(""));
 
 
-
+                //EL FALLO CON EL DUPLICADO ESTÁ AQUÍ
+                /*
+                El fallo fue creer que el paremetro suministrado al constructor actuaba igual que un setter.
+                 */
                 for (Alumno alumno : listaAlumnos){
-                    txtListaDni.add(new JTextField(alumno.getDni()));
-                    txtListaNombres.add(new JTextField(alumno.getNombre()));
-                    txtListaCursos.add(new JTextField(alumno.getCurso()));
-                    txtListaNivelesAcademicos.add(new JTextField(alumno.getNivelAcademico()));
+                    txtListaDni.add(new JTextField());
+                    txtListaNombres.add(new JTextField());
+                    txtListaCursos.add(new JTextField());
+                    txtListaNivelesAcademicos.add(new JTextField());
                     //cmbListaAsignaturas.add(new JComboBox(alumno.getListaAsignaturas()));
-                    btnListaBotonesEditar.add(new JButton("Editar"));
-                    btnListaBotonesBorrar.add(new JButton("Borrar"));
+                    btnListaBotonesEditar.add(new JButton());
+                    btnListaBotonesBorrar.add(new JButton());
                 }
 
-                for (Alumno alumno : listaAlumnos){ //Se añade toda la lista
+                for (int contador = 0; contador < listaAlumnos.size(); contador++){ //Se añade toda la lista
                     //cmbAsignaturas, como añado las asignaturas? Puede que sea bucle con .addItem
-                    pnlListado.add(txtListaDni.get(index));
-                    pnlListado.add(txtListaNombres.get(index));
-                    pnlListado.add(txtListaCursos.get(index));
-                    pnlListado.add(txtListaNivelesAcademicos.get(index));
+                    pnlListado.add(txtListaDni.get(contador));
+                    txtListaDni.get(contador).setText(listaAlumnos.get(contador).getDni());
+
+                    pnlListado.add(txtListaNombres.get(contador));
+                    txtListaNombres.get(contador).setText(listaAlumnos.get(contador).getDni());
+
+                    pnlListado.add(txtListaCursos.get(contador));
+                    txtListaCursos.get(contador).setText(String.valueOf(listaAlumnos.get(contador).getCurso()));
+
+                    pnlListado.add(txtListaNivelesAcademicos.get(contador));
+                    txtListaNivelesAcademicos.get(contador).setText(listaAlumnos.get(contador).getNivelAcademico());
                     pnlListado.add(new JComboBox<>());
-                    pnlListado.add(btnListaBotonesEditar.get(index));
-                    pnlListado.add(btnListaBotonesBorrar.get(index));
+
+                    pnlListado.add(btnListaBotonesEditar.get(contador));
+                    btnListaBotonesEditar.get(contador).setText("Editar");
+
+                    pnlListado.add(btnListaBotonesBorrar.get(contador));
+                    btnListaBotonesBorrar.get(contador).setText("Borrar");
 
                     //Obtenemos el componente txt y lo configuramos
-                    txtListaDni.get(index).setEnabled(false);
-                    index++;
-
-                    System.out.println(alumno.getCurso());
-
+                    txtListaDni.get(contador).setEnabled(false);
                 }
                 pnlPrincipal.doLayout();
                 pnlListado.doLayout(); //Dibujamos el panel
-
-
-
             }
         });
+
+        //Parece que no funcionan
+        for (int contador = 0; contador < btnListaBotonesEditar.size(); contador++){
+            btnListaBotonesEditar.get(contador).addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                }
+            });
+        }
+        //Parece que no funciona
+        for (int contador = 0; contador < btnListaBotonesBorrar.size(); contador++){
+            btnListaBotonesBorrar.get(contador).addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    btnListaBotonesBorrar.get(0).setText("Ha entrado");
+                    System.out.println("ha entrado");
+                }
+            });
+        }
     }
+
     public static void main(String[] args) {
         JFrame frame = new JFrame("Aplicacion");
         frame.setContentPane(new Aplicacion().pnlPrincipal);
