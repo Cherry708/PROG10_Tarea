@@ -14,6 +14,10 @@ public class Aplicacion {
     private JPanel pnlListado;
     private JButton btnRecargar;
 
+    //
+    int index = 0;
+
+
 
     //Ventana añadirEstudiante
     private JFrame anadirEstudiante;
@@ -30,14 +34,42 @@ public class Aplicacion {
         */
 
 
+        //Declaramos e instaciamos los layouts que utilizaremos
+        GridLayout layoutEstudiante = new GridLayout(0,7,5,5);
 
-        //Declaramos e instanciamos las listas que usaremos
+        //Declaramos e instanciamos las listas de alumnos, profesores y asignaturas
         ArrayList<Alumno> listaAlumnos = new ArrayList<>();
+        ArrayList<Profesor> listaProfesores = new ArrayList<>();
+        ArrayList<Asignatura> listaAsignaturas = new ArrayList<>();
+
+        //Declaramos e instanciamos las listas de los componentes de los objetos alumnos, profesores y asignaturas
+        /*
+        Alumnos
+         */
+        //Almacenamos los datos de los alumnos en un arrayList para luego poder manipularlos
+        ArrayList<JTextField> txtListaDni = new ArrayList<>();
+        ArrayList<JTextField> txtListaNombres = new ArrayList<>();
+        ArrayList<JTextField> txtListaCursos = new ArrayList<>();
+        ArrayList<JTextField> txtListaNivelesAcademicos = new ArrayList<>();
+        ArrayList<JComboBox> cmbListaAsignaturas = new ArrayList<>();
+        ArrayList<JButton> btnListaBotonesEditar = new ArrayList<>();
+        ArrayList<JButton> btnListaBotonesBorrar = new ArrayList<>();
+
+
+
+        /* Ejemplo de listeners para los botones creados en tiempo de ejecución
+        btnListaBotonesBorrar.get(contador).addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+            }
+        });
+         */
 
         //NO ERA NECESARIO INSTANCIAR pnlListado, AL HACERLO SE ¿SOBREESCRIBIA?
 
         //Primero se rellenan filas y luego columnas, como se soluciona???
-        pnlListado.setLayout(new GridLayout(0, 7, 35,5));
+        pnlListado.setLayout(new GridLayout(0, 7, 5,5));
 
 
         // Añadir componente
@@ -103,6 +135,9 @@ public class Aplicacion {
             @Override
             public void actionPerformed(ActionEvent e) {
 
+                //Si cmbOpcion == 0
+                pnlListado.setLayout(layoutEstudiante);
+
                 pnlListado.removeAll(); //Antes de añadir toda la lista vaciamos el panel para evitar duplicados
 
                 pnlListado.add(new JLabel("DNI"));
@@ -114,51 +149,39 @@ public class Aplicacion {
                 pnlListado.add(new JLabel(""));
 
 
-                //Almacenamos los dni de los alumnos en un arrayList de JTextField para luego poder configurarlos
-                ArrayList<JTextField> txtListaDni = new ArrayList<>();
-                ArrayList<JTextField> txtListaNombre = new ArrayList<>();
-                ArrayList<JTextField> txtListaNivelAcademico = new ArrayList<>();
-                JList lstAsignaturas = new JList();
 
                 for (Alumno alumno : listaAlumnos){
                     txtListaDni.add(new JTextField(alumno.getDni()));
+                    txtListaNombres.add(new JTextField(alumno.getNombre()));
+                    txtListaCursos.add(new JTextField(alumno.getCurso()));
+                    txtListaNivelesAcademicos.add(new JTextField(alumno.getNivelAcademico()));
+                    //cmbListaAsignaturas.add(new JComboBox(alumno.getListaAsignaturas()));
+                    btnListaBotonesEditar.add(new JButton("Editar"));
+                    btnListaBotonesBorrar.add(new JButton("Borrar"));
                 }
 
-                int index = 0;
                 for (Alumno alumno : listaAlumnos){ //Se añade toda la lista
                     //cmbAsignaturas, como añado las asignaturas? Puede que sea bucle con .addItem
                     pnlListado.add(txtListaDni.get(index));
-                    pnlListado.add(new JTextField(alumno.getNombre()));
-                    pnlListado.add(new JTextField(alumno.getCurso()));
-                    pnlListado.add(new JTextField(alumno.getNivelAcademico()));
-                    pnlListado.add(new JList<Asignatura>());
-                    pnlListado.add(new JButton("EditarNOFUNCIONA"));
-                    pnlListado.add(new JButton("EliminarNOFUNCIONA"));
+                    pnlListado.add(txtListaNombres.get(index));
+                    pnlListado.add(txtListaCursos.get(index));
+                    pnlListado.add(txtListaNivelesAcademicos.get(index));
+                    pnlListado.add(new JComboBox<>());
+                    pnlListado.add(btnListaBotonesEditar.get(index));
+                    pnlListado.add(btnListaBotonesBorrar.get(index));
+
+                    //Obtenemos el componente txt y lo configuramos
+                    txtListaDni.get(index).setEnabled(false);
                     index++;
 
                     System.out.println(alumno.getCurso());
-                    /*Los JTextField no se pueden configurar como no editables porque no se pueden declarar,
-                    y al usar .setEditable(false) el tipo de dato devuelto es distinto al que queremos guardar en el
-                    GridLayout. Si declaramos los JTextField no se podrán añadir nuevos componentes porque estaremos
-                    sobreescribiendo los objetos
-                     */
 
                 }
-                //Obtenemos el componente txt y lo configuramos
-                txtListaDni.get(0).setEnabled(false);
+                pnlPrincipal.doLayout();
                 pnlListado.doLayout(); //Dibujamos el panel
 
-                /*
-                txtDni.setText(listaAlumnos.get(0).getDni());
-                txtNombre.setText(listaAlumnos.get(0).getNombre());
-                txtCurso.setText(String.valueOf(listaAlumnos.get(0).getCurso()));
-                //cmbAsignaturas, como añado las asignaturas? Puede que sea bucle con .addItem
 
-                pnlListado.add(txtDni, 0, 0);
-                pnlListado.add(txtNombre, 0, 0);
-                pnlListado.add(txtCurso, 0, 0);
-                pnlListado.doLayout();
-                */
+
             }
         });
     }
