@@ -1,6 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class Aplicacion {
@@ -21,6 +22,7 @@ public class Aplicacion {
     //Ventana añadirEstudiante
     private JFrame anadirEstudiante;
     private JFrame anadirProfesor;
+    private JFrame anadirAsignatura;
 
 
 
@@ -29,6 +31,7 @@ public class Aplicacion {
         //Declaramos e instaciamos los layouts que utilizaremos
         GridLayout layoutEstudiante = new GridLayout(0,7,10,5);
         GridLayout layoutProfesor = new GridLayout(0, 5, 10,5);
+        GridLayout layoutAsignatura = new GridLayout(0,4,10,5);
 
         //Declaramos e instanciamos las listas de alumnos, profesores y asignaturas
         //Listas en las que se almacenarán los objetos instanciados en ejecución
@@ -36,8 +39,6 @@ public class Aplicacion {
         ArrayList<Profesor> listaProfesores = new ArrayList<>();
         ArrayList<Asignatura> listaAsignaturas = new ArrayList<>();
 
-        Asignatura asignatura = new Asignatura("Programación");
-        listaAsignaturas.add(asignatura);
 
 
         //Declaramos e instanciamos las listas de los componentes de los objetos alumnos, profesores y asignaturas
@@ -59,6 +60,12 @@ public class Aplicacion {
         ArrayList<JTextField> txtListaAsignaturasProfesor = new ArrayList<>();
         ArrayList<JButton> btnListaBotonesEditarProfesor = new ArrayList<>();
         ArrayList<JButton> btnListaBotonesBorrarProfesor = new ArrayList<>();
+
+        //Almacenamos los componentes de las asignaturas en un arrayList para luego poder manipularlos
+        ArrayList<JTextField> txtListaNombreAsignatura = new ArrayList<>();
+        ArrayList<JTextField> txtListaCursoAsignatura = new ArrayList<>();
+        ArrayList<JButton> btnListaBotonesEditarAsignatura = new ArrayList<>();
+        ArrayList<JButton> btnListaBotonesBorrarAsignatura = new ArrayList<>();
 
 
 
@@ -96,7 +103,7 @@ public class Aplicacion {
                     anadirProfesor = new AnadirProfesor(listaProfesores, listaAsignaturas);
                 //Ventana añadirAsigntura
                 } else if(cmbOpcion.getSelectedIndex() == 2){
-
+                    anadirAsignatura = new AnadirAsignatura(listaAsignaturas);
                 }
             }
         });
@@ -107,17 +114,20 @@ public class Aplicacion {
 
                 //Dibujamos estudiantes
                 if (cmbOpcion.getSelectedIndex() == 0){
-                    pnlListado.setLayout(layoutEstudiante);
+                    txtBuscar.setText("Para buscar un estudiante, introduce su DNI:");
 
+                    pnlListado.setLayout(layoutEstudiante);
                     pnlListado.removeAll(); //Antes de añadir toda la lista vaciamos el panel para evitar duplicados
 
-                    pnlListado.add(new JLabel("DNI"));
-                    pnlListado.add(new JLabel("Nombre"));
-                    pnlListado.add(new JLabel("Curso"));
-                    pnlListado.add(new JLabel("Nivel académico"));
-                    pnlListado.add(new JLabel("Asignaturas"));
-                    pnlListado.add(new JLabel(""));
-                    pnlListado.add(new JLabel(""));
+                    if (!listaAlumnos.isEmpty()){
+                        pnlListado.add(new JLabel("DNI"));
+                        pnlListado.add(new JLabel("Nombre"));
+                        pnlListado.add(new JLabel("Curso"));
+                        pnlListado.add(new JLabel("Nivel académico"));
+                        pnlListado.add(new JLabel("Asignaturas"));
+                        pnlListado.add(new JLabel(""));
+                        pnlListado.add(new JLabel(""));
+                    }
 
                     for (Alumno alumno : listaAlumnos){
                         txtListaDniAlumno.add(new JTextField());
@@ -146,8 +156,12 @@ public class Aplicacion {
 
                         //Dibujamos el cmb de cada alumno
                         pnlListado.add(cmbListaAsignaturasAlumno.get(contador));
+                        //CADA VEZ PULSAS RECARGAR SE AÑADE OTRA VEZ
+                        cmbListaAsignaturasAlumno.get(contador).addItem(listaAlumnos.get(contador).getListaAsignaturas().get(contador));
+
+
                         //Así le damos la lista a este alumno, esa lista de asignaturas debe ser una lista con lo seleccionado
-                        cmbListaAsignaturasAlumno.get(contador).addItem(listaAlumnos.get(contador).getListaAsignaturas());
+                        //cmbListaAsignaturasAlumno.get(contador).addItem(listaAlumnos.get(contador).getListaAsignaturas().get(contador).getNombre());
 
                         /*
                         Así estamos dando TODAS las asignaturas al alumno, queremos dar solo las que escoga.
@@ -166,13 +180,15 @@ public class Aplicacion {
 
                         //txtListaDni.get(contador).setEnabled(false);
                     }
+
                     pnlPrincipal.doLayout();
                     pnlListado.doLayout(); //Dibujamos el panel
 
                 //Dibujamos profesores
                 } else if (cmbOpcion.getSelectedIndex() == 1){
-                    pnlListado.setLayout(layoutProfesor);
+                    txtBuscar.setText("Para buscar un profesor, introduce su DNI:");
 
+                    pnlListado.setLayout(layoutProfesor);
                     pnlListado.removeAll(); //Antes de añadir toda la lista vaciamos el panel para evitar duplicados
 
                     pnlListado.add(new JLabel("DNI"));
@@ -199,7 +215,7 @@ public class Aplicacion {
                         txtListaNombresProfesor.get(contador).setText(listaProfesores.get(contador).getNombre());
 
                         pnlListado.add(txtListaAsignaturasProfesor.get(contador));
-                        txtListaAsignaturasProfesor.get(contador).setText(listaAsignaturas.get(contador).getNombre());
+                        txtListaAsignaturasProfesor.get(contador).setText(listaProfesores.get(contador).getAsignatura());
 
                         pnlListado.add(btnListaBotonesEditarAlumno.get(contador));
                         btnListaBotonesEditarAlumno.get(contador).setText("Editar");
@@ -215,7 +231,44 @@ public class Aplicacion {
                 //Dibujamos asignaturas
                 } else if (cmbOpcion.getSelectedIndex() == 2){
 
+                    pnlListado.setLayout(layoutAsignatura);
+                    pnlListado.removeAll(); //Antes de añadir toda la lista vaciamos el panel para evitar duplicados
+
+                    pnlListado.add(new JLabel("Nombre"));
+                    pnlListado.add(new JLabel("Curso"));
+                    pnlListado.add(new JLabel(""));
+                    pnlListado.add(new JLabel(""));
+
+
+                    for (Asignatura asignatura : listaAsignaturas){
+                        txtListaNombreAsignatura.add(new JTextField());
+                        txtListaCursoAsignatura.add(new JTextField());
+                        btnListaBotonesEditarAsignatura.add(new JButton());
+                        btnListaBotonesBorrarAsignatura.add(new JButton());
+                    }
+
+                    for (int contador = 0; contador < listaAsignaturas.size(); contador++){ //Se añade toda la lista
+                        //cmbAsignaturas, como añado las asignaturas? Puede que sea bucle con .addItem
+                        pnlListado.add(txtListaNombreAsignatura.get(contador));
+                        txtListaNombreAsignatura.get(contador).setText(listaAsignaturas.get(contador).getNombre());
+
+                        pnlListado.add(txtListaCursoAsignatura.get(contador));
+                        txtListaCursoAsignatura.get(contador).setText(String.valueOf(listaAsignaturas.get(contador).getCurso()));
+
+                        pnlListado.add(btnListaBotonesEditarAsignatura.get(contador));
+                        btnListaBotonesEditarAsignatura.get(contador).setText("Editar");
+
+                        pnlListado.add(btnListaBotonesBorrarAsignatura.get(contador));
+                        btnListaBotonesBorrarAsignatura.get(contador).setText("Borrar");
+
+                        //txtListaDni.get(contador).setEnabled(false);
+                        System.out.println(listaAsignaturas.get(contador).toString());
+                    }
+                    pnlPrincipal.doLayout();
+                    pnlListado.doLayout(); //Dibujamos el panel
+
                 }
+
 
             }
         });

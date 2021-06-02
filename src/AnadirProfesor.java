@@ -28,7 +28,7 @@ public class AnadirProfesor extends JFrame{
             public void actionPerformed(ActionEvent e) {
                 String dni;
                 String nombre;
-                Asignatura asignatura;
+                String asignatura;
                 Profesor profesor;
 
 
@@ -38,7 +38,7 @@ public class AnadirProfesor extends JFrame{
 
                     dni = txtDni.getText();
                     nombre = txtNombre.getText();
-                    asignatura = listaAsignaturas.get(0);
+                    asignatura = listaAsignaturas.get(0).getNombre();
                     profesor = new Profesor(dni, nombre, asignatura);
 
                     listaProfesores.add(profesor);

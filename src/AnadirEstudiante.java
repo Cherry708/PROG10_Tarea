@@ -36,8 +36,11 @@ public class AnadirEstudiante extends JFrame {
         pack();
         setVisible(true);
 
-
-
+        DefaultListModel modelo = new DefaultListModel();
+        for (Asignatura asignatura : listaAsignaturas){
+            modelo.addElement(asignatura);
+        }
+            lstAsignaturas.setModel(modelo);
 
         btnAceptar.addActionListener(new ActionListener() {
             @Override
@@ -47,7 +50,7 @@ public class AnadirEstudiante extends JFrame {
                 String nombre;
                 int curso;
                 String nivelAcademico;
-                ArrayList<Asignatura> listaAsignaturas; //Lista asignatura de la clase alumno
+                ArrayList<Asignatura> listaAsignaturasAlumno; //Lista asignatura de la clase alumno
                 Alumno alumno;
 
                 /*
@@ -59,15 +62,14 @@ public class AnadirEstudiante extends JFrame {
                 listaAlumnos.get(contador).setListaAsignaturas(listaAsignaturas);
                  */
 
-
                 if (rbtnPresencial.isSelected()){
 
                     dni = txtDni.getText();
                     nombre = txtNombre.getText();
                     curso = (int) spnCurso.getValue();
                     nivelAcademico = txtNivelAcademico.getText();
-                    listaAsignaturas = (ArrayList<Asignatura>) lstAsignaturas.getSelectedValuesList();
-                    alumno = new Presencial(dni, nombre, curso, nivelAcademico, listaAsignaturas);
+                    listaAsignaturasAlumno = (ArrayList<Asignatura>) lstAsignaturas.getSelectedValuesList();
+                    alumno = new Presencial(dni, nombre, curso, nivelAcademico, listaAsignaturasAlumno);
                     listaAlumnos.add(alumno);
 
                     dispose();

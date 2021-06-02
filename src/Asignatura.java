@@ -8,8 +8,9 @@ public class Asignatura {
     private ArrayList<Alumno> listaEstudiantes;
 
     //Métodos
-    public Asignatura(String nombre){
+    public Asignatura(String nombre, int curso){
         this.nombre = nombre;
+        this.curso = curso;
     }
 
     public String getNombre(){
@@ -38,6 +39,6 @@ public class Asignatura {
 
     @Override
     public String toString() {
-        return "Asignatura{ "+"nombre: "+nombre+", curso: "+curso+" }";
+        return this.nombre;
     }
 }

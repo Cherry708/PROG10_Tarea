@@ -1,16 +1,16 @@
 public class Profesor extends Persona {
 
     //Atributos
-    Asignatura asignatura;
+    String asignatura;
 
     //Métodos
-    public Profesor(String dni, String nombre, Asignatura asignatura){
+    public Profesor(String dni, String nombre, String asignatura){
         setDni(dni);
         setNombre(nombre);
         this.asignatura = asignatura;
     }
 
-    public Asignatura getAsignatura(){
+    public String getAsignatura(){
         return this.asignatura;
     }
 
