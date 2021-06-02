@@ -1,7 +1,4 @@
-import jdk.swing.interop.SwingInterOpUtils;
-
 import javax.swing.*;
-import javax.swing.table.TableColumn;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
@@ -23,61 +20,48 @@ public class Aplicacion {
 
     //Ventana añadirEstudiante
     private JFrame anadirEstudiante;
+    private JFrame anadirProfesor;
+
 
 
     public Aplicacion(){
 
-        /*
-        //Componentes de la lista de alumnos
-        JTextField txtDni = new JTextField();
-        JTextField txtNombre = new JTextField();
-        JTextField txtCurso = new JTextField();
-        JComboBox cmbAsignaturas = new JComboBox();
-        */
-
-
         //Declaramos e instaciamos los layouts que utilizaremos
         GridLayout layoutEstudiante = new GridLayout(0,7,10,5);
+        GridLayout layoutProfesor = new GridLayout(0, 5, 10,5);
 
         //Declaramos e instanciamos las listas de alumnos, profesores y asignaturas
+        //Listas en las que se almacenarán los objetos instanciados en ejecución
         ArrayList<Alumno> listaAlumnos = new ArrayList<>();
         ArrayList<Profesor> listaProfesores = new ArrayList<>();
         ArrayList<Asignatura> listaAsignaturas = new ArrayList<>();
+
+        Asignatura asignatura = new Asignatura("Programación");
+        listaAsignaturas.add(asignatura);
+
 
         //Declaramos e instanciamos las listas de los componentes de los objetos alumnos, profesores y asignaturas
         /*
         Alumnos
          */
-        //Almacenamos los datos de los alumnos en un arrayList para luego poder manipularlos
-        ArrayList<JTextField> txtListaDni = new ArrayList<>();
-        ArrayList<JTextField> txtListaNombres = new ArrayList<>();
-        ArrayList<JTextField> txtListaCursos = new ArrayList<>();
-        ArrayList<JTextField> txtListaNivelesAcademicos = new ArrayList<>();
-        ArrayList<JComboBox> cmbListaAsignaturas = new ArrayList<>();
-        ArrayList<JButton> btnListaBotonesEditar = new ArrayList<>();
-        ArrayList<JButton> btnListaBotonesBorrar = new ArrayList<>();
+        //Almacenamos los componentes de los alumnos en un arrayList para luego poder manipularlos
+        ArrayList<JTextField> txtListaDniAlumno = new ArrayList<>();
+        ArrayList<JTextField> txtListaNombresAlumno = new ArrayList<>();
+        ArrayList<JTextField> txtListaCursosAlumno = new ArrayList<>();
+        ArrayList<JTextField> txtListaNivelesAcademicosAlumno = new ArrayList<>();
+        ArrayList<JComboBox> cmbListaAsignaturasAlumno = new ArrayList<>();
+        ArrayList<JButton> btnListaBotonesEditarAlumno = new ArrayList<>();
+        ArrayList<JButton> btnListaBotonesBorrarAlumno = new ArrayList<>();
+
+        //Almacenamos los componentes de los profesores en un arrayList para luego poder manipularlos
+        ArrayList<JTextField> txtListaDniProfesor = new ArrayList<>();
+        ArrayList<JTextField> txtListaNombresProfesor = new ArrayList<>();
+        ArrayList<JTextField> txtListaAsignaturasProfesor = new ArrayList<>();
+        ArrayList<JButton> btnListaBotonesEditarProfesor = new ArrayList<>();
+        ArrayList<JButton> btnListaBotonesBorrarProfesor = new ArrayList<>();
 
 
 
-        /* Ejemplo de listeners para los botones creados en tiempo de ejecución
-        btnListaBotonesBorrar.get(contador).addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-
-            }
-        });
-         */
-
-        //NO ERA NECESARIO INSTANCIAR pnlListado, AL HACERLO SE ¿SOBREESCRIBIA?
-
-
-
-        // Añadir componente
-        /* Añadir componente
-        JTextField textField = new JTextField();
-        textField.setText("Texto");
-        pnlListado.add(textField, 0, 0);
-         */
 
         txtBuscar.addActionListener(new ActionListener() {
             @Override
@@ -99,100 +83,157 @@ public class Aplicacion {
         btnAñadir.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
+
+                //Ventana añadirEstudiante
                 if (cmbOpcion.getSelectedIndex() == 0){
                     //AñadirEstudiante hereda de JDialog
                     //Instanciamos AñadirEstudiante
                     //El parámetro de entrada debe ser un arraylist de alumnos
-                    anadirEstudiante = new AnadirEstudiante(listaAlumnos);
+                    anadirEstudiante = new AnadirEstudiante(listaAlumnos, listaAsignaturas);
 
-                    //Ventana añadirEstudiante
+                //Ventana añadirEstudiante
                 } else if(cmbOpcion.getSelectedIndex() == 1){
-
+                    anadirProfesor = new AnadirProfesor(listaProfesores, listaAsignaturas);
+                //Ventana añadirAsigntura
                 } else if(cmbOpcion.getSelectedIndex() == 2){
-                    //Ventana añadirAsigntura
+
                 }
             }
         });
 
-        /*
-        Al pulsar dos veces se volverán a añadir los mismos componentes? No parece
-        Bucle que recorra la lista y añada los componentes
-         */
         btnRecargar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                //Si cmbOpcion == 0
-                pnlListado.setLayout(layoutEstudiante);
+                //Dibujamos estudiantes
+                if (cmbOpcion.getSelectedIndex() == 0){
+                    pnlListado.setLayout(layoutEstudiante);
 
-                pnlListado.removeAll(); //Antes de añadir toda la lista vaciamos el panel para evitar duplicados
+                    pnlListado.removeAll(); //Antes de añadir toda la lista vaciamos el panel para evitar duplicados
 
-                pnlListado.add(new JLabel("DNI"));
-                pnlListado.add(new JLabel("Nombre"));
-                pnlListado.add(new JLabel("Curso"));
-                pnlListado.add(new JLabel("Nivel académico"));
-                pnlListado.add(new JLabel("Asignaturas"));
-                pnlListado.add(new JLabel(""));
-                pnlListado.add(new JLabel(""));
+                    pnlListado.add(new JLabel("DNI"));
+                    pnlListado.add(new JLabel("Nombre"));
+                    pnlListado.add(new JLabel("Curso"));
+                    pnlListado.add(new JLabel("Nivel académico"));
+                    pnlListado.add(new JLabel("Asignaturas"));
+                    pnlListado.add(new JLabel(""));
+                    pnlListado.add(new JLabel(""));
+
+                    for (Alumno alumno : listaAlumnos){
+                        txtListaDniAlumno.add(new JTextField());
+                        txtListaNombresAlumno.add(new JTextField());
+                        txtListaCursosAlumno.add(new JTextField());
+                        txtListaNivelesAcademicosAlumno.add(new JTextField());
+                        //A cada alumno le corresponde una cmb
+                        cmbListaAsignaturasAlumno.add(new JComboBox());
+                        btnListaBotonesEditarAlumno.add(new JButton());
+                        btnListaBotonesBorrarAlumno.add(new JButton());
+                    }
+
+                    for (int contador = 0; contador < listaAlumnos.size(); contador++){ //Se añade toda la lista
+                        //cmbAsignaturas, como añado las asignaturas? Puede que sea bucle con .addItem
+                        pnlListado.add(txtListaDniAlumno.get(contador));
+                        txtListaDniAlumno.get(contador).setText(listaAlumnos.get(contador).getDni());
+
+                        pnlListado.add(txtListaNombresAlumno.get(contador));
+                        txtListaNombresAlumno.get(contador).setText(listaAlumnos.get(contador).getNombre());
+
+                        pnlListado.add(txtListaCursosAlumno.get(contador));
+                        txtListaCursosAlumno.get(contador).setText(String.valueOf(listaAlumnos.get(contador).getCurso()));
+
+                        pnlListado.add(txtListaNivelesAcademicosAlumno.get(contador));
+                        txtListaNivelesAcademicosAlumno.get(contador).setText(listaAlumnos.get(contador).getNivelAcademico());
+
+                        //Dibujamos el cmb de cada alumno
+                        pnlListado.add(cmbListaAsignaturasAlumno.get(contador));
+                        //Así le damos la lista a este alumno, esa lista de asignaturas debe ser una lista con lo seleccionado
+                        cmbListaAsignaturasAlumno.get(contador).addItem(listaAlumnos.get(contador).getListaAsignaturas());
+
+                        /*
+                        Así estamos dando TODAS las asignaturas al alumno, queremos dar solo las que escoga.
+                         */
+                        //listaAlumnos.get(contador).setListaAsignaturas(listaAsignaturas);
+                       /*
+                        al cmb debemos añadirle las asignaturas que ha escogido el alumno, lista que forma parte de la
+                        clase presencial
+                         */
+
+                        pnlListado.add(btnListaBotonesEditarAlumno.get(contador));
+                        btnListaBotonesEditarAlumno.get(contador).setText("Editar");
+
+                        pnlListado.add(btnListaBotonesBorrarAlumno.get(contador));
+                        btnListaBotonesBorrarAlumno.get(contador).setText("Borrar");
+
+                        //txtListaDni.get(contador).setEnabled(false);
+                    }
+                    pnlPrincipal.doLayout();
+                    pnlListado.doLayout(); //Dibujamos el panel
+
+                //Dibujamos profesores
+                } else if (cmbOpcion.getSelectedIndex() == 1){
+                    pnlListado.setLayout(layoutProfesor);
+
+                    pnlListado.removeAll(); //Antes de añadir toda la lista vaciamos el panel para evitar duplicados
+
+                    pnlListado.add(new JLabel("DNI"));
+                    pnlListado.add(new JLabel("Nombre"));
+                    pnlListado.add(new JLabel("Asignatura"));
+                    pnlListado.add(new JLabel(""));
+                    pnlListado.add(new JLabel(""));
 
 
-                //EL FALLO CON EL DUPLICADO ESTÁ AQUÍ
-                /*
-                El fallo fue creer que el paremetro suministrado al constructor actuaba igual que un setter.
-                 */
-                for (Alumno alumno : listaAlumnos){
-                    txtListaDni.add(new JTextField());
-                    txtListaNombres.add(new JTextField());
-                    txtListaCursos.add(new JTextField());
-                    txtListaNivelesAcademicos.add(new JTextField());
-                    //cmbListaAsignaturas.add(new JComboBox(alumno.getListaAsignaturas()));
-                    btnListaBotonesEditar.add(new JButton());
-                    btnListaBotonesBorrar.add(new JButton());
+                    for (Profesor profesor : listaProfesores){
+                        txtListaDniProfesor.add(new JTextField());
+                        txtListaNombresProfesor.add(new JTextField());
+                        txtListaAsignaturasProfesor.add(new JTextField());
+                        btnListaBotonesEditarProfesor.add(new JButton());
+                        btnListaBotonesBorrarProfesor.add(new JButton());
+                    }
+
+                    for (int contador = 0; contador < listaProfesores.size(); contador++){ //Se añade toda la lista
+                        //cmbAsignaturas, como añado las asignaturas? Puede que sea bucle con .addItem
+                        pnlListado.add(txtListaDniProfesor.get(contador));
+                        txtListaDniProfesor.get(contador).setText(listaProfesores.get(contador).getDni());
+
+                        pnlListado.add(txtListaNombresProfesor.get(contador));
+                        txtListaNombresProfesor.get(contador).setText(listaProfesores.get(contador).getNombre());
+
+                        pnlListado.add(txtListaAsignaturasProfesor.get(contador));
+                        txtListaAsignaturasProfesor.get(contador).setText(listaAsignaturas.get(contador).getNombre());
+
+                        pnlListado.add(btnListaBotonesEditarAlumno.get(contador));
+                        btnListaBotonesEditarAlumno.get(contador).setText("Editar");
+
+                        pnlListado.add(btnListaBotonesBorrarAlumno.get(contador));
+                        btnListaBotonesBorrarAlumno.get(contador).setText("Borrar");
+
+                        //txtListaDni.get(contador).setEnabled(false);
+                    }
+                    pnlPrincipal.doLayout();
+                    pnlListado.doLayout(); //Dibujamos el panel
+
+                //Dibujamos asignaturas
+                } else if (cmbOpcion.getSelectedIndex() == 2){
+
                 }
 
-                for (int contador = 0; contador < listaAlumnos.size(); contador++){ //Se añade toda la lista
-                    //cmbAsignaturas, como añado las asignaturas? Puede que sea bucle con .addItem
-                    pnlListado.add(txtListaDni.get(contador));
-                    txtListaDni.get(contador).setText(listaAlumnos.get(contador).getDni());
-
-                    pnlListado.add(txtListaNombres.get(contador));
-                    txtListaNombres.get(contador).setText(listaAlumnos.get(contador).getDni());
-
-                    pnlListado.add(txtListaCursos.get(contador));
-                    txtListaCursos.get(contador).setText(String.valueOf(listaAlumnos.get(contador).getCurso()));
-
-                    pnlListado.add(txtListaNivelesAcademicos.get(contador));
-                    txtListaNivelesAcademicos.get(contador).setText(listaAlumnos.get(contador).getNivelAcademico());
-                    pnlListado.add(new JComboBox<>());
-
-                    pnlListado.add(btnListaBotonesEditar.get(contador));
-                    btnListaBotonesEditar.get(contador).setText("Editar");
-
-                    pnlListado.add(btnListaBotonesBorrar.get(contador));
-                    btnListaBotonesBorrar.get(contador).setText("Borrar");
-
-                    //Obtenemos el componente txt y lo configuramos
-                    txtListaDni.get(contador).setEnabled(false);
-                }
-                pnlPrincipal.doLayout();
-                pnlListado.doLayout(); //Dibujamos el panel
             }
         });
 
         //Parece que no funcionan
-        for (int contador = 0; contador < btnListaBotonesEditar.size(); contador++){
-            btnListaBotonesEditar.get(contador).addActionListener(new ActionListener() {
+        for (int contador = 0; contador < btnListaBotonesEditarAlumno.size(); contador++){
+            btnListaBotonesEditarAlumno.get(contador).addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                 }
             });
         }
         //Parece que no funciona
-        for (int contador = 0; contador < btnListaBotonesBorrar.size(); contador++){
-            btnListaBotonesBorrar.get(contador).addActionListener(new ActionListener() {
+        for (int contador = 0; contador < btnListaBotonesBorrarAlumno.size(); contador++){
+            btnListaBotonesBorrarAlumno.get(contador).addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    btnListaBotonesBorrar.get(0).setText("Ha entrado");
+                    btnListaBotonesBorrarAlumno.get(0).setText("Ha entrado");
                     System.out.println("ha entrado");
                 }
             });

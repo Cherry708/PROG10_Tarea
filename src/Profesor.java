@@ -4,6 +4,12 @@ public class Profesor extends Persona {
     Asignatura asignatura;
 
     //Métodos
+    public Profesor(String dni, String nombre, Asignatura asignatura){
+        setDni(dni);
+        setNombre(nombre);
+        this.asignatura = asignatura;
+    }
+
     public Asignatura getAsignatura(){
         return this.asignatura;
     }

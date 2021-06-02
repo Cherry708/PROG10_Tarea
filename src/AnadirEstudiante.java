@@ -27,8 +27,8 @@ public class AnadirEstudiante extends JFrame {
     private JLabel lblNivel;
 
 
-
-    public AnadirEstudiante(ArrayList<Alumno> listaAlumnos) {
+    //listaAsignaturas con las Asignaturas creadas para rellenar la JList
+    public AnadirEstudiante(ArrayList<Alumno> listaAlumnos, ArrayList<Asignatura> listaAsignaturas) {
 
         //Heredamos los métodos de JDialog
         setTitle("Añadir estudiante");
@@ -37,30 +37,40 @@ public class AnadirEstudiante extends JFrame {
         setVisible(true);
 
 
+
+
         btnAceptar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
 
                 String dni;
                 String nombre;
-                String nivelAcademico;
                 int curso;
-                ArrayList<Asignatura> listaAsignaturas;
+                String nivelAcademico;
+                ArrayList<Asignatura> listaAsignaturas; //Lista asignatura de la clase alumno
                 Alumno alumno;
+
+                /*
+                Se escogen las asignaturas de una JList y se añaden a su propia lista de asignaturas.
+                Los profesores escogen la asignatura de un JComboBox y se debe añadir a la lista de asignaturas para profesores
+
+
+                Así estamos dando TODAS las asignaturas al alumno, queremos dar solo las que escoga.
+                listaAlumnos.get(contador).setListaAsignaturas(listaAsignaturas);
+                 */
+
 
                 if (rbtnPresencial.isSelected()){
 
                     dni = txtDni.getText();
                     nombre = txtNombre.getText();
-                    nivelAcademico = txtNivelAcademico.getText();
                     curso = (int) spnCurso.getValue();
+                    nivelAcademico = txtNivelAcademico.getText();
                     listaAsignaturas = (ArrayList<Asignatura>) lstAsignaturas.getSelectedValuesList();
                     alumno = new Presencial(dni, nombre, curso, nivelAcademico, listaAsignaturas);
                     listaAlumnos.add(alumno);
 
                     dispose();
-                    //Como añadir los componentes a la ventana de aplicación??????
-
                 }
             }
         });
