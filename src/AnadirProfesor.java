@@ -9,7 +9,7 @@ public class AnadirProfesor extends JFrame{
     private JLabel lblProfesor;
     private JTextField txtDni;
     private JTextField txtNombre;
-    private JComboBox cmbAsignatura;
+    private JComboBox<Asignatura> cmbAsignatura;
     private JButton btnAceptar;
     private JButton btnCancelar;
     private JLabel lblAsignatura;
@@ -22,13 +22,16 @@ public class AnadirProfesor extends JFrame{
         pack();
         setVisible(true);
 
+        for (Asignatura asignatura : listaAsignaturas){
+            cmbAsignatura.addItem(asignatura);
+        }
 
         btnAceptar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String dni;
                 String nombre;
-                String asignatura;
+                String asignaturaProfesor;
                 Profesor profesor;
 
 
@@ -38,12 +41,11 @@ public class AnadirProfesor extends JFrame{
 
                     dni = txtDni.getText();
                     nombre = txtNombre.getText();
-                    asignatura = listaAsignaturas.get(0).getNombre();
-                    profesor = new Profesor(dni, nombre, asignatura);
+                    asignaturaProfesor = cmbAsignatura.getSelectedItem().toString();
+                    profesor = new Profesor(dni, nombre, asignaturaProfesor);
 
                     listaProfesores.add(profesor);
-                    System.out.println(listaProfesores.get(0));
-
+                    dispose();
                 }
             }
         });

@@ -51,6 +51,7 @@ public class AnadirEstudiante extends JFrame {
                 int curso;
                 String nivelAcademico;
                 ArrayList<Asignatura> listaAsignaturasAlumno; //Lista asignatura de la clase alumno
+                int convocatoria;
                 Alumno alumno;
 
                 /*
@@ -69,13 +70,52 @@ public class AnadirEstudiante extends JFrame {
                     curso = (int) spnCurso.getValue();
                     nivelAcademico = txtNivelAcademico.getText();
                     listaAsignaturasAlumno = (ArrayList<Asignatura>) lstAsignaturas.getSelectedValuesList();
-                    alumno = new Presencial(dni, nombre, curso, nivelAcademico, listaAsignaturasAlumno);
-                    listaAlumnos.add(alumno);
+                    convocatoria = (int) spnConvocatoria.getValue();
+                    alumno = new Presencial(dni, nombre, curso, nivelAcademico, listaAsignaturasAlumno, convocatoria);
+                    if (dni.isEmpty() || nombre.isEmpty() || String.valueOf(curso).isEmpty()
+                            || nivelAcademico.isEmpty() || String.valueOf(convocatoria).isEmpty()){
+                        JOptionPane.showMessageDialog(null, "Debes introducir todos los campos.");
+                    } else
+                        anadirAlumno(alumno, listaAlumnos);
 
-                    dispose();
+                } else if (rbtnLibre.isSelected()){
+
+                    dni = txtDni.getText();
+                    nombre = txtNombre.getText();
+                    curso = (int) spnCurso.getValue();
+                    nivelAcademico = txtNivelAcademico.getText();
+                    listaAsignaturasAlumno = (ArrayList<Asignatura>) lstAsignaturas.getSelectedValuesList();
+                    alumno = new Libre(dni, nombre, curso, nivelAcademico, listaAsignaturasAlumno);
+                    if (dni.isEmpty() || nombre.isEmpty() || String.valueOf(curso).isEmpty() || nivelAcademico.isEmpty()){
+                        JOptionPane.showMessageDialog(null, "Debes introducir todos los campos.");
+                    } else
+                      anadirAlumno(alumno, listaAlumnos);
                 }
             }
         });
+
+        rbtnPresencial.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                accesoConvocatoria(true);
+            }
+        });
+        rbtnLibre.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                accesoConvocatoria(false);
+            }
+        });
+    }
+
+    private void anadirAlumno(Alumno alumno, ArrayList<Alumno> listaAlumnos) {
+        listaAlumnos.add(alumno);
+        dispose();
+    }
+
+    private void accesoConvocatoria(boolean estado) {
+        lblConvocatoria.setEnabled(estado);
+        spnConvocatoria.setEnabled(estado);
     }
 
 

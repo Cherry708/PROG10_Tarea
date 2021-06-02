@@ -1,7 +1,6 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class Aplicacion {
@@ -13,6 +12,8 @@ public class Aplicacion {
     private JComboBox cmbOpcion;
     private JPanel pnlListado;
     private JButton btnRecargar;
+    private JButton btnEliminar;
+    private JButton btnEditar;
 
     //
     int index = 0;
@@ -29,9 +30,9 @@ public class Aplicacion {
     public Aplicacion(){
 
         //Declaramos e instaciamos los layouts que utilizaremos
-        GridLayout layoutEstudiante = new GridLayout(0,7,10,5);
-        GridLayout layoutProfesor = new GridLayout(0, 5, 10,5);
-        GridLayout layoutAsignatura = new GridLayout(0,4,10,5);
+        GridLayout layoutEstudiante = new GridLayout(0,5,10,5);
+        GridLayout layoutProfesor = new GridLayout(0, 3, 10,5);
+        GridLayout layoutAsignatura = new GridLayout(0,2,10,5);
 
         //Declaramos e instanciamos las listas de alumnos, profesores y asignaturas
         //Listas en las que se almacenarán los objetos instanciados en ejecución
@@ -50,63 +51,100 @@ public class Aplicacion {
         ArrayList<JTextField> txtListaNombresAlumno = new ArrayList<>();
         ArrayList<JTextField> txtListaCursosAlumno = new ArrayList<>();
         ArrayList<JTextField> txtListaNivelesAcademicosAlumno = new ArrayList<>();
-        ArrayList<JComboBox> cmbListaAsignaturasAlumno = new ArrayList<>();
-        ArrayList<JButton> btnListaBotonesEditarAlumno = new ArrayList<>();
-        ArrayList<JButton> btnListaBotonesBorrarAlumno = new ArrayList<>();
+        ArrayList<JList<Asignatura>> lstListaAsignaturasAlumno = new ArrayList<>();
+        DefaultListModel<Asignatura> modeloAsignaturasAlumno = new DefaultListModel<>();
 
         //Almacenamos los componentes de los profesores en un arrayList para luego poder manipularlos
         ArrayList<JTextField> txtListaDniProfesor = new ArrayList<>();
         ArrayList<JTextField> txtListaNombresProfesor = new ArrayList<>();
         ArrayList<JTextField> txtListaAsignaturasProfesor = new ArrayList<>();
-        ArrayList<JButton> btnListaBotonesEditarProfesor = new ArrayList<>();
-        ArrayList<JButton> btnListaBotonesBorrarProfesor = new ArrayList<>();
 
         //Almacenamos los componentes de las asignaturas en un arrayList para luego poder manipularlos
         ArrayList<JTextField> txtListaNombreAsignatura = new ArrayList<>();
         ArrayList<JTextField> txtListaCursoAsignatura = new ArrayList<>();
-        ArrayList<JButton> btnListaBotonesEditarAsignatura = new ArrayList<>();
-        ArrayList<JButton> btnListaBotonesBorrarAsignatura = new ArrayList<>();
 
 
+        cmbOpcion.setSelectedIndex(2);
 
-
-        txtBuscar.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent actionEvent) {
-            }
-        });
         btnBuscar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
+                String busqueda;
+                busqueda = txtBuscar.getText();
+                boolean encontrado = false;
+                boolean mostrarMensaje = true;
+
+                if (cmbOpcion.getSelectedIndex() == 0){
+
+                     for (Alumno alumno : listaAlumnos){
+
+                         if (alumno.getDni().equals(busqueda)){
+                             definirLayoutPanel(layoutEstudiante);
+                             mostrarEtiquetasAlumno(listaAlumnos);
+                             JTextField dniAlumno = new JTextField();
+                             JTextField nombreAlumno = new JTextField();
+                             JTextField cursoAlumno = new JTextField();
+                             JTextField nivelAlumno = new JTextField();
+                             JList<Asignatura> asignaturasAlumno = new JList<Asignatura>();
+
+                             dniAlumno.setText(alumno.getDni());
+                             nombreAlumno.setText(alumno.getNombre());
+                             cursoAlumno.setText(String.valueOf(alumno.getCurso()));
+                             nivelAlumno.setText(alumno.getNivelAcademico());
+                             //asignaturasAlumno.addItem(alumno.getListaAsignaturas().get(0));
+
+                             pnlListado.add(dniAlumno);
+                             pnlListado.add(nombreAlumno);
+                             pnlListado.add(cursoAlumno);
+                             pnlListado.add(nivelAlumno);
+                             pnlListado.add(asignaturasAlumno);
+
+                             pnlListado.doLayout();
+                             JOptionPane.showMessageDialog(null,"Se ha encontrado.");
+                             //Es necesario???
+                             txtBuscar.setText("Para buscar, eliminar o editar un estudiante, introduce su DNI.");
+                             encontrado = true;
+                             mostrarMensaje = false;
+                         }
+                     }
+                     if (mostrarMensaje){
+                         JOptionPane.showMessageDialog(null,"No se ha encontrado.");
+                     }
+                }
             }
         });
 
         cmbOpcion.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
+                if (listaAsignaturas.isEmpty() && cmbOpcion.getSelectedIndex() != 2) {
+                    JOptionPane.showMessageDialog(null, "Debes añadir asignaturas.");
+                    cmbOpcion.setSelectedIndex(2);
+                }
+
+                actualizarPaneles();
             }
-        }); //Parece finalizado
+        });
 
         btnAñadir.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
 
-                //Ventana añadirEstudiante
                 if (cmbOpcion.getSelectedIndex() == 0){
-                    //AñadirEstudiante hereda de JDialog
-                    //Instanciamos AñadirEstudiante
-                    //El parámetro de entrada debe ser un arraylist de alumnos
                     anadirEstudiante = new AnadirEstudiante(listaAlumnos, listaAsignaturas);
-
-                //Ventana añadirEstudiante
                 } else if(cmbOpcion.getSelectedIndex() == 1){
                     anadirProfesor = new AnadirProfesor(listaProfesores, listaAsignaturas);
-                //Ventana añadirAsigntura
                 } else if(cmbOpcion.getSelectedIndex() == 2){
                     anadirAsignatura = new AnadirAsignatura(listaAsignaturas);
                 }
             }
         });
+
+
+
+        for (Asignatura asignatura : listaAsignaturas){
+            modeloAsignaturasAlumno.addElement(asignatura);
+        }
 
         btnRecargar.addActionListener(new ActionListener() {
             @Override
@@ -114,38 +152,29 @@ public class Aplicacion {
 
                 //Dibujamos estudiantes
                 if (cmbOpcion.getSelectedIndex() == 0){
-                    txtBuscar.setText("Para buscar un estudiante, introduce su DNI:");
+                    txtBuscar.setText("Para buscar, eliminar o editar un estudiante, introduce su DNI.");
 
-                    pnlListado.setLayout(layoutEstudiante);
-                    pnlListado.removeAll(); //Antes de añadir toda la lista vaciamos el panel para evitar duplicados
+                    definirLayoutPanel(layoutEstudiante);
 
-                    if (!listaAlumnos.isEmpty()){
-                        pnlListado.add(new JLabel("DNI"));
-                        pnlListado.add(new JLabel("Nombre"));
-                        pnlListado.add(new JLabel("Curso"));
-                        pnlListado.add(new JLabel("Nivel académico"));
-                        pnlListado.add(new JLabel("Asignaturas"));
-                        pnlListado.add(new JLabel(""));
-                        pnlListado.add(new JLabel(""));
-                    }
+                    mostrarEtiquetasAlumno(listaAlumnos);
 
                     for (Alumno alumno : listaAlumnos){
+                        //JButton botonEditar = new JButton();
                         txtListaDniAlumno.add(new JTextField());
                         txtListaNombresAlumno.add(new JTextField());
                         txtListaCursosAlumno.add(new JTextField());
                         txtListaNivelesAcademicosAlumno.add(new JTextField());
                         //A cada alumno le corresponde una cmb
-                        cmbListaAsignaturasAlumno.add(new JComboBox());
-                        JButton botonEditar = new JButton();
-                        btnListaBotonesEditarAlumno.add(botonEditar);
+                        lstListaAsignaturasAlumno.add(new JList<>());
+                        /*
                         botonEditar.addActionListener(new ActionListener() {
                             @Override
                             public void actionPerformed(ActionEvent e) {
                                 System.out.println(alumno.getDni());
                             }
                         });
-                        btnListaBotonesBorrarAlumno.add(new JButton());
 
+                         */
                     }
 
 
@@ -164,13 +193,13 @@ public class Aplicacion {
                         txtListaNivelesAcademicosAlumno.get(contador).setText(listaAlumnos.get(contador).getNivelAcademico());
 
                         //Dibujamos el cmb de cada alumno
-                        pnlListado.add(cmbListaAsignaturasAlumno.get(contador));
+                        pnlListado.add(lstListaAsignaturasAlumno.get(contador));
                         //CADA VEZ PULSAS RECARGAR SE AÑADE OTRA VEZ
                         //cmbListaAsignaturasAlumno.get(contador).addItem(listaAlumnos.get(contador).getListaAsignaturas().get(contador));
 
 
                         //Así le damos la lista a este alumno, esa lista de asignaturas debe ser una lista con lo seleccionado
-                        //cmbListaAsignaturasAlumno.get(contador).addItem(listaAlumnos.get(contador).getListaAsignaturas().get(contador).getNombre());
+                        lstListaAsignaturasAlumno.get(contador).setModel(modeloAsignaturasAlumno);
 
                         /*
                         Así estamos dando TODAS las asignaturas al alumno, queremos dar solo las que escoga.
@@ -181,39 +210,31 @@ public class Aplicacion {
                         clase presencial
                          */
 
-                        pnlListado.add(btnListaBotonesEditarAlumno.get(contador));
-                        btnListaBotonesEditarAlumno.get(contador).setText("Editar");
 
-                        pnlListado.add(btnListaBotonesBorrarAlumno.get(contador));
-                        btnListaBotonesBorrarAlumno.get(contador).setText("Borrar");
 
                         //txtListaDni.get(contador).setEnabled(false);
                     }
-                    cmbListaAsignaturasAlumno.clear(); //Vaciamos la lista de componentes para evitar que se duplique
+                    //lstListaAsignaturasAlumno.clear(); //Vaciamos la lista de componentes para evitar que se duplique
                     //Ahora no se duplica pero al añadir 2 el cmb se rompe
-                    pnlPrincipal.doLayout();
-                    pnlListado.doLayout(); //Dibujamos el panel
+                    actualizarPaneles();
 
-                //Dibujamos profesores
+                    //Dibujamos profesores
                 } else if (cmbOpcion.getSelectedIndex() == 1){
-                    txtBuscar.setText("Para buscar un profesor, introduce su DNI:");
+                    txtBuscar.setText("Para buscar, eliminar o editar un profesor, introduce su DNI.");
 
-                    pnlListado.setLayout(layoutProfesor);
-                    pnlListado.removeAll(); //Antes de añadir toda la lista vaciamos el panel para evitar duplicados
+                    definirLayoutPanel(layoutProfesor);
 
-                    pnlListado.add(new JLabel("DNI"));
-                    pnlListado.add(new JLabel("Nombre"));
-                    pnlListado.add(new JLabel("Asignatura"));
-                    pnlListado.add(new JLabel(""));
-                    pnlListado.add(new JLabel(""));
+                    if (!listaProfesores.isEmpty()) {
+                        pnlListado.add(new JLabel("DNI"));
+                        pnlListado.add(new JLabel("Nombre"));
+                        pnlListado.add(new JLabel("Asignatura"));
+                    }
 
 
                     for (Profesor profesor : listaProfesores){
                         txtListaDniProfesor.add(new JTextField());
                         txtListaNombresProfesor.add(new JTextField());
                         txtListaAsignaturasProfesor.add(new JTextField());
-                        btnListaBotonesEditarProfesor.add(new JButton());
-                        btnListaBotonesBorrarProfesor.add(new JButton());
                     }
 
                     for (int contador = 0; contador < listaProfesores.size(); contador++){ //Se añade toda la lista
@@ -227,34 +248,27 @@ public class Aplicacion {
                         pnlListado.add(txtListaAsignaturasProfesor.get(contador));
                         txtListaAsignaturasProfesor.get(contador).setText(listaProfesores.get(contador).getAsignatura());
 
-                        pnlListado.add(btnListaBotonesEditarAlumno.get(contador));
-                        btnListaBotonesEditarAlumno.get(contador).setText("Editar");
 
-                        pnlListado.add(btnListaBotonesBorrarAlumno.get(contador));
-                        btnListaBotonesBorrarAlumno.get(contador).setText("Borrar");
 
                         //txtListaDni.get(contador).setEnabled(false);
                     }
-                    pnlPrincipal.doLayout();
-                    pnlListado.doLayout(); //Dibujamos el panel
+                    actualizarPaneles();
 
-                //Dibujamos asignaturas
+                    //Dibujamos asignaturas
                 } else if (cmbOpcion.getSelectedIndex() == 2){
+                    txtBuscar.setText("Para buscar, eliminar o editar una asignatura, introduce su curso.");
 
-                    pnlListado.setLayout(layoutAsignatura);
-                    pnlListado.removeAll(); //Antes de añadir toda la lista vaciamos el panel para evitar duplicados
+                    definirLayoutPanel(layoutAsignatura);
 
-                    pnlListado.add(new JLabel("Nombre"));
-                    pnlListado.add(new JLabel("Curso"));
-                    pnlListado.add(new JLabel(""));
-                    pnlListado.add(new JLabel(""));
+                    if (!listaAsignaturas.isEmpty()){
+                        pnlListado.add(new JLabel("Nombre"));
+                        pnlListado.add(new JLabel("Curso"));
+                    }
 
 
                     for (Asignatura asignatura : listaAsignaturas){
                         txtListaNombreAsignatura.add(new JTextField());
                         txtListaCursoAsignatura.add(new JTextField());
-                        btnListaBotonesEditarAsignatura.add(new JButton());
-                        btnListaBotonesBorrarAsignatura.add(new JButton());
                     }
 
                     for (int contador = 0; contador < listaAsignaturas.size(); contador++){ //Se añade toda la lista
@@ -265,17 +279,11 @@ public class Aplicacion {
                         pnlListado.add(txtListaCursoAsignatura.get(contador));
                         txtListaCursoAsignatura.get(contador).setText(String.valueOf(listaAsignaturas.get(contador).getCurso()));
 
-                        pnlListado.add(btnListaBotonesEditarAsignatura.get(contador));
-                        btnListaBotonesEditarAsignatura.get(contador).setText("Editar");
-
-                        pnlListado.add(btnListaBotonesBorrarAsignatura.get(contador));
-                        btnListaBotonesBorrarAsignatura.get(contador).setText("Borrar");
 
                         //txtListaDni.get(contador).setEnabled(false);
                         System.out.println(listaAsignaturas.get(contador).toString());
                     }
-                    pnlPrincipal.doLayout();
-                    pnlListado.doLayout(); //Dibujamos el panel
+                    actualizarPaneles();
 
                 }
 
@@ -283,20 +291,83 @@ public class Aplicacion {
             }
         });
 
+        btnEliminar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String busqueda;
+                busqueda = txtBuscar.getText();
+                boolean mostrarMensaje = true;
 
-
-        /*
-        //Parece que no funciona
-        for (int contador = 0; contador < btnListaBotonesBorrarAlumno.size(); contador++){
-            btnListaBotonesBorrarAlumno.get(contador).addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    btnListaBotonesBorrarAlumno.get(0).setText("Ha entrado");
-                    System.out.println("ha entrado");
+                if (cmbOpcion.getSelectedIndex() == 0){
+                    for (Alumno alumno : listaAlumnos){
+                        if (alumno.getDni().equals(busqueda)){
+                            listaAlumnos.remove(alumno);
+                            JOptionPane.showMessageDialog(null,"Se ha eliminado correctamente.");
+                            definirLayoutPanel(layoutEstudiante);
+                            mostrarMensaje = false;
+                        }
+                    }
+                    if (mostrarMensaje){
+                        JOptionPane.showMessageDialog(null, "No se ha encontrado.");
+                    }
                 }
-            });
+            }
+        });
+
+        btnEditar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String busqueda;
+                busqueda = txtBuscar.getText();
+                editar(busqueda, listaAlumnos, listaAsignaturas, listaProfesores);
+            }
+        });
+
+    }
+
+    private void editar(String busqueda, ArrayList<Alumno> listaAlumnos, ArrayList<Asignatura> listaAsignaturas, ArrayList<Profesor> listaProfesores) {
+        if (cmbOpcion.getSelectedIndex() == 0){
+            for (Alumno alumno : listaAlumnos){
+                if (alumno.getDni().equals(busqueda)){
+                    anadirEstudiante = new AnadirEstudiante(listaAlumnos, listaAsignaturas);
+                    listaAlumnos.remove(alumno);
+                }
+            }
+        } else if (cmbOpcion.getSelectedIndex() == 1){
+            for (Profesor profesor : listaProfesores){
+                if (profesor.getDni().equals(busqueda)){
+                    anadirProfesor = new AnadirProfesor(listaProfesores,listaAsignaturas);
+                    listaProfesores.remove(profesor);
+                }
+            }
+        } else if (cmbOpcion.getSelectedIndex() == 2){
+            for (Asignatura asignatura : listaAsignaturas){
+                if (String.valueOf(asignatura.getCurso()).equals(busqueda)){
+                    anadirAsignatura = new AnadirAsignatura(listaAsignaturas);
+                    listaAsignaturas.remove(asignatura);
+                }
+            }
         }
-       */
+    }
+
+    private void actualizarPaneles() {
+        pnlPrincipal.doLayout();
+        pnlListado.doLayout(); //Dibujamos el panel
+    }
+
+    private void mostrarEtiquetasAlumno(ArrayList<Alumno> listaAlumnos) {
+        if (!listaAlumnos.isEmpty()){
+            pnlListado.add(new JLabel("DNI"));
+            pnlListado.add(new JLabel("Nombre"));
+            pnlListado.add(new JLabel("Curso"));
+            pnlListado.add(new JLabel("Nivel académico"));
+            pnlListado.add(new JLabel("Asignaturas"));
+        }
+    }
+
+    private void definirLayoutPanel(GridLayout layoutEstudiante) {
+        pnlListado.setLayout(layoutEstudiante);
+        pnlListado.removeAll(); //Antes de añadir toda la lista vaciamos el panel para evitar duplicados
     }
 
     public static void main(String[] args) {
