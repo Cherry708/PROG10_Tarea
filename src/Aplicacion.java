@@ -136,9 +136,18 @@ public class Aplicacion {
                         txtListaNivelesAcademicosAlumno.add(new JTextField());
                         //A cada alumno le corresponde una cmb
                         cmbListaAsignaturasAlumno.add(new JComboBox());
-                        btnListaBotonesEditarAlumno.add(new JButton());
+                        JButton botonEditar = new JButton();
+                        btnListaBotonesEditarAlumno.add(botonEditar);
+                        botonEditar.addActionListener(new ActionListener() {
+                            @Override
+                            public void actionPerformed(ActionEvent e) {
+                                System.out.println(alumno.getDni());
+                            }
+                        });
                         btnListaBotonesBorrarAlumno.add(new JButton());
+
                     }
+
 
                     for (int contador = 0; contador < listaAlumnos.size(); contador++){ //Se añade toda la lista
                         //cmbAsignaturas, como añado las asignaturas? Puede que sea bucle con .addItem
@@ -157,7 +166,7 @@ public class Aplicacion {
                         //Dibujamos el cmb de cada alumno
                         pnlListado.add(cmbListaAsignaturasAlumno.get(contador));
                         //CADA VEZ PULSAS RECARGAR SE AÑADE OTRA VEZ
-                        cmbListaAsignaturasAlumno.get(contador).addItem(listaAlumnos.get(contador).getListaAsignaturas().get(contador));
+                        //cmbListaAsignaturasAlumno.get(contador).addItem(listaAlumnos.get(contador).getListaAsignaturas().get(contador));
 
 
                         //Así le damos la lista a este alumno, esa lista de asignaturas debe ser una lista con lo seleccionado
@@ -180,7 +189,8 @@ public class Aplicacion {
 
                         //txtListaDni.get(contador).setEnabled(false);
                     }
-
+                    cmbListaAsignaturasAlumno.clear(); //Vaciamos la lista de componentes para evitar que se duplique
+                    //Ahora no se duplica pero al añadir 2 el cmb se rompe
                     pnlPrincipal.doLayout();
                     pnlListado.doLayout(); //Dibujamos el panel
 
@@ -273,14 +283,9 @@ public class Aplicacion {
             }
         });
 
-        //Parece que no funcionan
-        for (int contador = 0; contador < btnListaBotonesEditarAlumno.size(); contador++){
-            btnListaBotonesEditarAlumno.get(contador).addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                }
-            });
-        }
+
+
+        /*
         //Parece que no funciona
         for (int contador = 0; contador < btnListaBotonesBorrarAlumno.size(); contador++){
             btnListaBotonesBorrarAlumno.get(contador).addActionListener(new ActionListener() {
@@ -291,6 +296,7 @@ public class Aplicacion {
                 }
             });
         }
+       */
     }
 
     public static void main(String[] args) {
