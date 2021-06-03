@@ -26,8 +26,6 @@ public class AnadirEstudiante extends JFrame {
     private JTextField txtNivelAcademico;
     private JLabel lblNivel;
 
-
-    //listaAsignaturas con las Asignaturas creadas para rellenar la JList
     public AnadirEstudiante(ArrayList<Alumno> listaAlumnos, ArrayList<Asignatura> listaAsignaturas) {
 
         //Heredamos los métodos de JDialog
@@ -55,6 +53,8 @@ public class AnadirEstudiante extends JFrame {
                 int convocatoria;
                 Alumno alumno;
 
+                listaAsignaturasAlumno = new ArrayList<>();
+
                 /*
                 Se escogen las asignaturas de una JList y se añaden a su propia lista de asignaturas.
                 Los profesores escogen la asignatura de un JComboBox y se debe añadir a la lista de asignaturas para profesores
@@ -70,13 +70,19 @@ public class AnadirEstudiante extends JFrame {
                     nombre = txtNombre.getText();
                     curso = (int) spnCurso.getValue();
                     nivelAcademico = txtNivelAcademico.getText();
-                    listaAsignaturasAlumno = (ArrayList<Asignatura>) lstAsignaturas.getSelectedValuesList();
+                    try {
+                        listaAsignaturasAlumno = (ArrayList<Asignatura>) lstAsignaturas.getSelectedValuesList();
+                    } catch (ClassCastException ignored){}
                     tipoDeAlumno = rbtnPresencial.getText();
                     convocatoria = (int) spnConvocatoria.getValue();
                     alumno = new Presencial(dni, nombre, curso, nivelAcademico, listaAsignaturasAlumno, tipoDeAlumno, convocatoria);
                     if (dni.isEmpty() || nombre.isEmpty() || String.valueOf(curso).isEmpty()
-                            || nivelAcademico.isEmpty() || String.valueOf(convocatoria).isEmpty()){
+                            || nivelAcademico.isEmpty() || String.valueOf(convocatoria).isEmpty() || listaAsignaturasAlumno.isEmpty()){
                         JOptionPane.showMessageDialog(null, "Debes introducir todos los campos.");
+                    } else if ((int)spnCurso.getValue() < 0){
+                        JOptionPane.showMessageDialog(null, "El curso no puede ser negativo.");
+                    } else if ((int)spnConvocatoria.getValue() < 0){
+                        JOptionPane.showMessageDialog(null, "La convocatoria no puede ser negativa.");
                     } else
                         anadirAlumno(alumno, listaAlumnos);
 
@@ -86,13 +92,18 @@ public class AnadirEstudiante extends JFrame {
                     nombre = txtNombre.getText();
                     curso = (int) spnCurso.getValue();
                     nivelAcademico = txtNivelAcademico.getText();
-                    listaAsignaturasAlumno = (ArrayList<Asignatura>) lstAsignaturas.getSelectedValuesList();
+                    try {
+                        listaAsignaturasAlumno = (ArrayList<Asignatura>) lstAsignaturas.getSelectedValuesList();
+                    } catch (ClassCastException ignored){}
                     tipoDeAlumno = rbtnLibre.getText();
                     alumno = new Libre(dni, nombre, curso, nivelAcademico, listaAsignaturasAlumno, tipoDeAlumno);
-                    if (dni.isEmpty() || nombre.isEmpty() || String.valueOf(curso).isEmpty() || nivelAcademico.isEmpty()){
+                    if (dni.isEmpty() || nombre.isEmpty() || String.valueOf(curso).isEmpty() || nivelAcademico.isEmpty()
+                    || listaAsignaturasAlumno.isEmpty()){
                         JOptionPane.showMessageDialog(null, "Debes introducir todos los campos.");
+                    } else if (curso < 0){
+                        JOptionPane.showMessageDialog(null,"El curso no puede ser negativo.");
                     } else
-                      anadirAlumno(alumno, listaAlumnos);
+                        anadirAlumno(alumno, listaAlumnos);
                 }
             }
         });

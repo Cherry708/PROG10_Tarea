@@ -34,22 +34,22 @@ public class AnadirProfesor extends JFrame{
                 String asignaturaProfesor;
                 Profesor profesor;
 
+                dni = txtDni.getText();
+                nombre = txtNombre.getText();
+                asignaturaProfesor = cmbAsignatura.getSelectedItem().toString();
+                profesor = new Profesor(dni, nombre, asignaturaProfesor);
 
-                if (txtDni.getText().isEmpty() || txtNombre.getText().isEmpty()){
+                if (dni.isEmpty()|| nombre.isEmpty() || asignaturaProfesor.isEmpty()){
                     JOptionPane.showMessageDialog(null, "Debes introducir todos los campos.");
                 } else {
-
-                    dni = txtDni.getText();
-                    nombre = txtNombre.getText();
-                    asignaturaProfesor = cmbAsignatura.getSelectedItem().toString();
-                    profesor = new Profesor(dni, nombre, asignaturaProfesor);
-
-                    listaProfesores.add(profesor);
-                    dispose();
+                    anadirProfesor(profesor, listaProfesores);
                 }
             }
         });
     }
 
-
+    private void anadirProfesor(Profesor profesor, ArrayList<Profesor> listaProfesores){
+        listaProfesores.add(profesor);
+        dispose();
+    }
 }
