@@ -87,7 +87,7 @@ public class Asignatura {
 
     /**
      * Sobreescritura del método toString que muestra el nombre de la asignatura.
-     * @return devuelve el nombre de la asignatura.
+     * @return nombre de la asignatura.
      */
     @Override
     public String toString() {
