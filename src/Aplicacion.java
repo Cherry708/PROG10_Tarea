@@ -51,9 +51,9 @@ public class Aplicacion {
         ArrayList<JTextField> txtListaNombresAlumno = new ArrayList<>();
         ArrayList<JTextField> txtListaCursoAlumno = new ArrayList<>();
         ArrayList<JTextField> txtListaNiveleAlumno = new ArrayList<>();
-        ArrayList<JList<Asignatura>> lstListaAsignaturasAlumno = new ArrayList<>();
+        ArrayList<JComboBox<Asignatura>> cmbListaAsignaturasAlumno = new ArrayList<>();
         ArrayList<JTextField> txtListaTipoAlumno = new ArrayList<>();
-        DefaultListModel<Asignatura> modeloAsignaturasAlumno = new DefaultListModel<>();
+        //DefaultListModel<Asignatura> modeloAsignaturasAlumno = new DefaultListModel<>();
 
         //Almacenamos los componentes de los profesores en un arrayList para luego poder manipularlos
         ArrayList<JTextField> txtListaDniProfesor = new ArrayList<>();
@@ -140,10 +140,12 @@ public class Aplicacion {
         });
 
 
-
+        /*
         for (Asignatura asignatura : listaAsignaturas){
             modeloAsignaturasAlumno.addElement(asignatura);
         }
+
+         */
 
         //LAS ASIGNATURAS DEL ALUMNO SIGUEN SIN FUNCIONAR
         btnRecargar.addActionListener(new ActionListener() {
@@ -159,13 +161,14 @@ public class Aplicacion {
                     mostrarEtiquetasAlumno(listaAlumnos);
 
                     for (Alumno alumno : listaAlumnos){
+
                         //JButton botonEditar = new JButton();
                         txtListaDniAlumno.add(new JTextField());
                         txtListaNombresAlumno.add(new JTextField());
                         txtListaCursoAlumno.add(new JTextField());
                         txtListaNiveleAlumno.add(new JTextField());
                         //A cada alumno le corresponde una cmb
-                        lstListaAsignaturasAlumno.add(new JList<>());
+                        cmbListaAsignaturasAlumno.add(new JComboBox<>());
                         txtListaTipoAlumno.add(new JTextField());
                         /*
                         botonEditar.addActionListener(new ActionListener() {
@@ -197,16 +200,24 @@ public class Aplicacion {
                         txtListaNiveleAlumno.get(contador).setText(listaAlumnos.get(contador).getNivelAcademico());
                         txtListaNiveleAlumno.get(contador).setEditable(false);
 
-                        //Dibujamos el cmb de cada alumno
-                        pnlListado.add(lstListaAsignaturasAlumno.get(contador));
-                        //CADA VEZ PULSAS RECARGAR SE AÑADE OTRA VEZ
-                        //cmbListaAsignaturasAlumno.get(contador).addItem(listaAlumnos.get(contador).getListaAsignaturas().get(contador));
+                        pnlListado.add(cmbListaAsignaturasAlumno.get(contador));
+                        /*
+                         Estamos añadiendo más asignaturas de las que hay
+                         //cmbListaAsignaturasAlumno.get(contador).addItem(listaAlumnos.get(contador).getListaAsignaturas().get(0));
+                        */
+                        /*
+                         Tengo que añadir tantas asignaturas como el alumno tenga:
+                        */
+                        for (Asignatura asignatura: listaAlumnos.get(contador).getListaAsignaturas()){
+                            cmbListaAsignaturasAlumno.get(contador).addItem(asignatura);
+                        }
+
                         pnlListado.add(txtListaTipoAlumno.get(contador));
                         txtListaTipoAlumno.get(contador).setText(listaAlumnos.get(contador).getTipoDeAlumno());
                         txtListaTipoAlumno.get(contador).setEditable(false);
 
                         //Así le damos la lista a este alumno, esa lista de asignaturas debe ser una lista con lo seleccionado
-                        lstListaAsignaturasAlumno.get(contador).setModel(modeloAsignaturasAlumno);
+                        //lstListaAsignaturasAlumno.get(contador).setModel(modeloAsignaturasAlumno);
 
                         /*
                         Así estamos dando TODAS las asignaturas al alumno, queremos dar solo las que escoga.
@@ -217,8 +228,15 @@ public class Aplicacion {
                         clase presencial
                          */
 
-
+                        //Cada vez que hacemos click en recargar se incrementa el tamaño que debería ir ligado a los alumnos, está mal
+                        //probamos a hacer clear
                     }
+                    //Debería vaciarlo aquí
+                    System.out.println("Tamaño lista txt"+txtListaDniAlumno.size());
+                    txtListaDniAlumno.clear();
+                    System.out.println("Tamaño lista cmb "+cmbListaAsignaturasAlumno.size());
+                    cmbListaAsignaturasAlumno.clear();
+                    System.out.println("Tamaño lista alumno"+listaAlumnos.size());
                     //lstListaAsignaturasAlumno.clear(); //Vaciamos la lista de componentes para evitar que se duplique
                     //Ahora no se duplica pero al añadir 2 el cmb se rompe
                     actualizarPaneles();
