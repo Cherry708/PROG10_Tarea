@@ -9,12 +9,13 @@ public class Libre extends Alumno {
     //Métodos
     public Libre(){}
 
-    public Libre(String dni, String nombre, int curso, String nivelAcademico, ArrayList<Asignatura> listaAsignaturas){
+    public Libre(String dni, String nombre, int curso, String nivelAcademico, ArrayList<Asignatura> listaAsignaturas, String tipoDeAlumno){
         setDni(dni);
         setNombre(nombre);
         setCurso(curso);
         setNivelAcademico(nivelAcademico);
         setListaAsignaturas(listaAsignaturas);
+        setTipoDeAlumno(tipoDeAlumno);
     }
 
     public int getNumeroHorasDiarias(){

@@ -9,12 +9,13 @@ public class Presencial extends Alumno{
     private double plusPorConvocatoria;
 
     //Métodos
-    public Presencial(String dni, String nombre, int curso, String nivelAcademico, ArrayList<Asignatura> listaAsignaturas, int numeroConvocatoria){
+    public Presencial(String dni, String nombre, int curso, String nivelAcademico, ArrayList<Asignatura> listaAsignaturas, String tipoDeAlumno ,int numeroConvocatoria){
         setDni(dni);
         setNombre(nombre);
         setCurso(curso);
         setNivelAcademico(nivelAcademico);
         setListaAsignaturas(listaAsignaturas);
+        setTipoDeAlumno(tipoDeAlumno);
         this.numeroConvocatoria = numeroConvocatoria;
     }
 

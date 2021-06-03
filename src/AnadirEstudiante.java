@@ -51,6 +51,7 @@ public class AnadirEstudiante extends JFrame {
                 int curso;
                 String nivelAcademico;
                 ArrayList<Asignatura> listaAsignaturasAlumno; //Lista asignatura de la clase alumno
+                String tipoDeAlumno;
                 int convocatoria;
                 Alumno alumno;
 
@@ -70,8 +71,9 @@ public class AnadirEstudiante extends JFrame {
                     curso = (int) spnCurso.getValue();
                     nivelAcademico = txtNivelAcademico.getText();
                     listaAsignaturasAlumno = (ArrayList<Asignatura>) lstAsignaturas.getSelectedValuesList();
+                    tipoDeAlumno = rbtnPresencial.getText();
                     convocatoria = (int) spnConvocatoria.getValue();
-                    alumno = new Presencial(dni, nombre, curso, nivelAcademico, listaAsignaturasAlumno, convocatoria);
+                    alumno = new Presencial(dni, nombre, curso, nivelAcademico, listaAsignaturasAlumno, tipoDeAlumno, convocatoria);
                     if (dni.isEmpty() || nombre.isEmpty() || String.valueOf(curso).isEmpty()
                             || nivelAcademico.isEmpty() || String.valueOf(convocatoria).isEmpty()){
                         JOptionPane.showMessageDialog(null, "Debes introducir todos los campos.");
@@ -85,7 +87,8 @@ public class AnadirEstudiante extends JFrame {
                     curso = (int) spnCurso.getValue();
                     nivelAcademico = txtNivelAcademico.getText();
                     listaAsignaturasAlumno = (ArrayList<Asignatura>) lstAsignaturas.getSelectedValuesList();
-                    alumno = new Libre(dni, nombre, curso, nivelAcademico, listaAsignaturasAlumno);
+                    tipoDeAlumno = rbtnLibre.getText();
+                    alumno = new Libre(dni, nombre, curso, nivelAcademico, listaAsignaturasAlumno, tipoDeAlumno);
                     if (dni.isEmpty() || nombre.isEmpty() || String.valueOf(curso).isEmpty() || nivelAcademico.isEmpty()){
                         JOptionPane.showMessageDialog(null, "Debes introducir todos los campos.");
                     } else

@@ -30,7 +30,7 @@ public class Aplicacion {
     public Aplicacion(){
 
         //Declaramos e instaciamos los layouts que utilizaremos
-        GridLayout layoutEstudiante = new GridLayout(0,5,10,5);
+        GridLayout layoutEstudiante = new GridLayout(0,6,10,5);
         GridLayout layoutProfesor = new GridLayout(0, 3, 10,5);
         GridLayout layoutAsignatura = new GridLayout(0,2,10,5);
 
@@ -49,9 +49,10 @@ public class Aplicacion {
         //Almacenamos los componentes de los alumnos en un arrayList para luego poder manipularlos
         ArrayList<JTextField> txtListaDniAlumno = new ArrayList<>();
         ArrayList<JTextField> txtListaNombresAlumno = new ArrayList<>();
-        ArrayList<JTextField> txtListaCursosAlumno = new ArrayList<>();
-        ArrayList<JTextField> txtListaNivelesAcademicosAlumno = new ArrayList<>();
+        ArrayList<JTextField> txtListaCursoAlumno = new ArrayList<>();
+        ArrayList<JTextField> txtListaNiveleAlumno = new ArrayList<>();
         ArrayList<JList<Asignatura>> lstListaAsignaturasAlumno = new ArrayList<>();
+        ArrayList<JTextField> txtListaTipoAlumno = new ArrayList<>();
         DefaultListModel<Asignatura> modeloAsignaturasAlumno = new DefaultListModel<>();
 
         //Almacenamos los componentes de los profesores en un arrayList para luego poder manipularlos
@@ -66,6 +67,7 @@ public class Aplicacion {
 
         cmbOpcion.setSelectedIndex(2);
 
+        //POR ACABAR!!!!
         btnBuscar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
@@ -75,9 +77,7 @@ public class Aplicacion {
                 boolean mostrarMensaje = true;
 
                 if (cmbOpcion.getSelectedIndex() == 0){
-
                      for (Alumno alumno : listaAlumnos){
-
                          if (alumno.getDni().equals(busqueda)){
                              definirLayoutPanel(layoutEstudiante);
                              mostrarEtiquetasAlumno(listaAlumnos);
@@ -86,29 +86,29 @@ public class Aplicacion {
                              JTextField cursoAlumno = new JTextField();
                              JTextField nivelAlumno = new JTextField();
                              JList<Asignatura> asignaturasAlumno = new JList<Asignatura>();
+                             JTextField tipoDeAlumno = new JTextField();
 
                              dniAlumno.setText(alumno.getDni());
                              nombreAlumno.setText(alumno.getNombre());
                              cursoAlumno.setText(String.valueOf(alumno.getCurso()));
                              nivelAlumno.setText(alumno.getNivelAcademico());
                              //asignaturasAlumno.addItem(alumno.getListaAsignaturas().get(0));
+                             tipoDeAlumno.setText(alumno.getTipoDeAlumno());
 
                              pnlListado.add(dniAlumno);
                              pnlListado.add(nombreAlumno);
                              pnlListado.add(cursoAlumno);
                              pnlListado.add(nivelAlumno);
                              pnlListado.add(asignaturasAlumno);
+                             pnlListado.add(tipoDeAlumno);
 
                              pnlListado.doLayout();
-                             JOptionPane.showMessageDialog(null,"Se ha encontrado.");
-                             //Es necesario???
-                             txtBuscar.setText("Para buscar, eliminar o editar un estudiante, introduce su DNI.");
-                             encontrado = true;
+                             accionRealizadaMensaje();
                              mostrarMensaje = false;
                          }
                      }
                      if (mostrarMensaje){
-                         JOptionPane.showMessageDialog(null,"No se ha encontrado.");
+                         noEncontradoMensaje();
                      }
                 }
             }
@@ -121,7 +121,6 @@ public class Aplicacion {
                     JOptionPane.showMessageDialog(null, "Debes añadir asignaturas.");
                     cmbOpcion.setSelectedIndex(2);
                 }
-
                 actualizarPaneles();
             }
         });
@@ -146,6 +145,7 @@ public class Aplicacion {
             modeloAsignaturasAlumno.addElement(asignatura);
         }
 
+        //LAS ASIGNATURAS DEL ALUMNO SIGUEN SIN FUNCIONAR
         btnRecargar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -162,10 +162,11 @@ public class Aplicacion {
                         //JButton botonEditar = new JButton();
                         txtListaDniAlumno.add(new JTextField());
                         txtListaNombresAlumno.add(new JTextField());
-                        txtListaCursosAlumno.add(new JTextField());
-                        txtListaNivelesAcademicosAlumno.add(new JTextField());
+                        txtListaCursoAlumno.add(new JTextField());
+                        txtListaNiveleAlumno.add(new JTextField());
                         //A cada alumno le corresponde una cmb
                         lstListaAsignaturasAlumno.add(new JList<>());
+                        txtListaTipoAlumno.add(new JTextField());
                         /*
                         botonEditar.addActionListener(new ActionListener() {
                             @Override
@@ -182,21 +183,27 @@ public class Aplicacion {
                         //cmbAsignaturas, como añado las asignaturas? Puede que sea bucle con .addItem
                         pnlListado.add(txtListaDniAlumno.get(contador));
                         txtListaDniAlumno.get(contador).setText(listaAlumnos.get(contador).getDni());
+                        txtListaDniAlumno.get(contador).setEditable(false);
 
                         pnlListado.add(txtListaNombresAlumno.get(contador));
                         txtListaNombresAlumno.get(contador).setText(listaAlumnos.get(contador).getNombre());
+                        txtListaNombresAlumno.get(contador).setEditable(false);
 
-                        pnlListado.add(txtListaCursosAlumno.get(contador));
-                        txtListaCursosAlumno.get(contador).setText(String.valueOf(listaAlumnos.get(contador).getCurso()));
+                        pnlListado.add(txtListaCursoAlumno.get(contador));
+                        txtListaCursoAlumno.get(contador).setText(String.valueOf(listaAlumnos.get(contador).getCurso()));
+                        txtListaCursoAlumno.get(contador).setEditable(false);
 
-                        pnlListado.add(txtListaNivelesAcademicosAlumno.get(contador));
-                        txtListaNivelesAcademicosAlumno.get(contador).setText(listaAlumnos.get(contador).getNivelAcademico());
+                        pnlListado.add(txtListaNiveleAlumno.get(contador));
+                        txtListaNiveleAlumno.get(contador).setText(listaAlumnos.get(contador).getNivelAcademico());
+                        txtListaNiveleAlumno.get(contador).setEditable(false);
 
                         //Dibujamos el cmb de cada alumno
                         pnlListado.add(lstListaAsignaturasAlumno.get(contador));
                         //CADA VEZ PULSAS RECARGAR SE AÑADE OTRA VEZ
                         //cmbListaAsignaturasAlumno.get(contador).addItem(listaAlumnos.get(contador).getListaAsignaturas().get(contador));
-
+                        pnlListado.add(txtListaTipoAlumno.get(contador));
+                        txtListaTipoAlumno.get(contador).setText(listaAlumnos.get(contador).getTipoDeAlumno());
+                        txtListaTipoAlumno.get(contador).setEditable(false);
 
                         //Así le damos la lista a este alumno, esa lista de asignaturas debe ser una lista con lo seleccionado
                         lstListaAsignaturasAlumno.get(contador).setModel(modeloAsignaturasAlumno);
@@ -211,8 +218,6 @@ public class Aplicacion {
                          */
 
 
-
-                        //txtListaDni.get(contador).setEnabled(false);
                     }
                     //lstListaAsignaturasAlumno.clear(); //Vaciamos la lista de componentes para evitar que se duplique
                     //Ahora no se duplica pero al añadir 2 el cmb se rompe
@@ -256,7 +261,7 @@ public class Aplicacion {
 
                     //Dibujamos asignaturas
                 } else if (cmbOpcion.getSelectedIndex() == 2){
-                    txtBuscar.setText("Para buscar, eliminar o editar una asignatura, introduce su curso.");
+                    txtBuscar.setText("Para buscar, eliminar o editar una asignatura, introduce su nombre.");
 
                     definirLayoutPanel(layoutAsignatura);
 
@@ -291,6 +296,7 @@ public class Aplicacion {
             }
         });
 
+        //POR ACABAR!!!!!!
         btnEliminar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -302,18 +308,19 @@ public class Aplicacion {
                     for (Alumno alumno : listaAlumnos){
                         if (alumno.getDni().equals(busqueda)){
                             listaAlumnos.remove(alumno);
-                            JOptionPane.showMessageDialog(null,"Se ha eliminado correctamente.");
+                            accionRealizadaMensaje();
                             definirLayoutPanel(layoutEstudiante);
                             mostrarMensaje = false;
                         }
                     }
                     if (mostrarMensaje){
-                        JOptionPane.showMessageDialog(null, "No se ha encontrado.");
+                        noEncontradoMensaje();
                     }
                 }
             }
         });
 
+        //FINALIZADO
         btnEditar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -325,27 +332,50 @@ public class Aplicacion {
 
     }
 
+    private void accionRealizadaMensaje() {
+        JOptionPane.showMessageDialog(null,"Acción realizada correctamente.");
+    }
+
+    private void noEncontradoMensaje() {
+        JOptionPane.showMessageDialog(null, "No se ha encontrado.");
+    }
+
     private void editar(String busqueda, ArrayList<Alumno> listaAlumnos, ArrayList<Asignatura> listaAsignaturas, ArrayList<Profesor> listaProfesores) {
+
+        boolean mostrarMensaje = true;
+
         if (cmbOpcion.getSelectedIndex() == 0){
             for (Alumno alumno : listaAlumnos){
                 if (alumno.getDni().equals(busqueda)){
                     anadirEstudiante = new AnadirEstudiante(listaAlumnos, listaAsignaturas);
                     listaAlumnos.remove(alumno);
+                    mostrarMensaje = false;
                 }
+            }
+            if (mostrarMensaje){
+                noEncontradoMensaje();
             }
         } else if (cmbOpcion.getSelectedIndex() == 1){
             for (Profesor profesor : listaProfesores){
                 if (profesor.getDni().equals(busqueda)){
                     anadirProfesor = new AnadirProfesor(listaProfesores,listaAsignaturas);
                     listaProfesores.remove(profesor);
+                    mostrarMensaje = false;
                 }
+            }
+            if (mostrarMensaje){
+                noEncontradoMensaje();
             }
         } else if (cmbOpcion.getSelectedIndex() == 2){
             for (Asignatura asignatura : listaAsignaturas){
                 if (String.valueOf(asignatura.getCurso()).equals(busqueda)){
                     anadirAsignatura = new AnadirAsignatura(listaAsignaturas);
                     listaAsignaturas.remove(asignatura);
+                    mostrarMensaje = false;
                 }
+            }
+            if (mostrarMensaje){
+                noEncontradoMensaje();
             }
         }
     }
@@ -360,8 +390,9 @@ public class Aplicacion {
             pnlListado.add(new JLabel("DNI"));
             pnlListado.add(new JLabel("Nombre"));
             pnlListado.add(new JLabel("Curso"));
-            pnlListado.add(new JLabel("Nivel académico"));
+            pnlListado.add(new JLabel("Nivel"));
             pnlListado.add(new JLabel("Asignaturas"));
+            pnlListado.add(new JLabel("Tipo"));
         }
     }
 
