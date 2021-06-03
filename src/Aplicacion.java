@@ -4,6 +4,19 @@ import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.ConcurrentModificationException;
 
+/**
+ * Aplicación es el controlador que muestra la interfaz
+ * gráfica principal y cuenta con la mayoría de funciones,
+ * aunque delega en otras clases para añadir profesores,
+ * estudiantes y asignaturas.
+ *
+ * Aplicación consiste en una interfaz gráfica que permite
+ * añadir, editar, buscar y eliminar profesores, estudiantes
+ * y asignaturas en tiempo de ejecución.
+ *
+ * @author Rubén Serrano Cano
+ * @version 1.0
+ */
 public class Aplicacion {
 
     private JPanel pnlPrincipal;
@@ -16,35 +29,37 @@ public class Aplicacion {
     private JButton btnEliminar;
     private JButton btnEditar;
 
-    //
-    int index = 0;
-
-
-
-    //Ventana añadirEstudiante
+    /*
+    Ventanas que podrán mostrarse en tiempo de ejecución.
+     */
     private JFrame anadirEstudiante;
     private JFrame anadirProfesor;
     private JFrame anadirAsignatura;
 
-
-
+    /**
+     * Metodo constructor.
+     */
     public Aplicacion(){
 
-        //Declaramos e instaciamos los layouts que utilizaremos
+        //Declaramos e instaciamos los GridLayouts que utilizaremos.
         GridLayout layoutEstudiante = new GridLayout(0,6,10,5);
         GridLayout layoutProfesor = new GridLayout(0, 3, 10,5);
         GridLayout layoutAsignatura = new GridLayout(0,2,10,5);
 
-        //Declaramos e instanciamos las listas de alumnos, profesores y asignaturas
-        //Listas en las que se almacenarán los objetos instanciados en ejecución
+        /*
+        Declaramos e instanciamos las listas de alumnos, profesores y asignaturas.
+        Listas en las que se almacenarán los objetos instanciados en ejecución.
+         */
         ArrayList<Alumno> listaAlumnos = new ArrayList<>();
         ArrayList<Profesor> listaProfesores = new ArrayList<>();
         ArrayList<Asignatura> listaAsignaturas = new ArrayList<>();
 
 
 
-        //Declaramos e instanciamos las listas de los componentes de alumnos, profesores y asignaturas
-        //Almacenaremos los componentes en un arrayList para luego poder manipularlos
+        /*
+        Declaramos e instanciamos las listas de los componentes de alumnos, profesores y asignaturas
+        Almacenaremos los componentes en un arrayList para luego poder manipularlos
+         */
 
         /*
         Componentes de alumnos
@@ -68,7 +83,6 @@ public class Aplicacion {
          */
         ArrayList<JTextField> txtListaNombreAsignatura = new ArrayList<>();
         ArrayList<JTextField> txtListaCursoAsignatura = new ArrayList<>();
-
 
         cmbOpcion.setSelectedIndex(2);
 
@@ -568,10 +582,11 @@ public class Aplicacion {
     }
 
     public static void main(String[] args) {
-        JFrame frame = new JFrame("Aplicacion");
+        JFrame frame = new JFrame("Aplicación");
         frame.setContentPane(new Aplicacion().pnlPrincipal);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.pack();
+        frame.setSize(new Dimension(600,300));
+        frame.setLocationRelativeTo(null);
         frame.setVisible(true);
     }
 }

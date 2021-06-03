@@ -3,6 +3,14 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
+/**
+ * AñadirProfesor muestra una interfaz gráfica
+ * que permite instanciar profesores que serán
+ * añadidos a una lista del controlador Aplicación.
+ *
+ * @author Rubén Serrano Cano.
+ * @version 1.0
+ */
 public class AnadirProfesor extends JFrame{
 
     private JPanel pnlPrincipal;
@@ -20,6 +28,7 @@ public class AnadirProfesor extends JFrame{
         setTitle("Añadir profesor");
         setContentPane(pnlPrincipal);
         pack();
+        setLocationRelativeTo(null);
         setVisible(true);
 
         for (Asignatura asignatura : listaAsignaturas){
@@ -48,6 +57,11 @@ public class AnadirProfesor extends JFrame{
         });
     }
 
+    /**
+     * Método que añade el profesor suministrado a la lista de profesores suministrada y cierra la ventana.
+     * @param profesor Objeto de la clase Profesor.
+     * @param listaProfesores lista en que se añadirán los profesores.
+     */
     private void anadirProfesor(Profesor profesor, ArrayList<Profesor> listaProfesores){
         listaProfesores.add(profesor);
         dispose();

@@ -3,8 +3,14 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
-
-//Al heredar de JDialog, es un JDialog
+/**
+ * AñadirEstudiante muestra una interfaz gráfica
+ * que permite instanciar estudiantes que serán
+ * añadidos a una lista del controlador Aplicación.
+ *
+ * @author Rubén Serrano Cano.
+ * @version 1.0
+ */
 public class AnadirEstudiante extends JFrame {
     private JPanel pnlPrincipal;
     private JLabel lblEstudiante;
@@ -32,6 +38,7 @@ public class AnadirEstudiante extends JFrame {
         setTitle("Añadir estudiante");
         setContentPane(pnlPrincipal);
         pack();
+        setLocationRelativeTo(null);
         setVisible(true);
 
         DefaultListModel modelo = new DefaultListModel();
@@ -54,15 +61,6 @@ public class AnadirEstudiante extends JFrame {
                 Alumno alumno;
 
                 listaAsignaturasAlumno = new ArrayList<>();
-
-                /*
-                Se escogen las asignaturas de una JList y se añaden a su propia lista de asignaturas.
-                Los profesores escogen la asignatura de un JComboBox y se debe añadir a la lista de asignaturas para profesores
-
-
-                Así estamos dando TODAS las asignaturas al alumno, queremos dar solo las que escoga.
-                listaAlumnos.get(contador).setListaAsignaturas(listaAsignaturas);
-                 */
 
                 if (rbtnPresencial.isSelected()){
 
@@ -122,11 +120,20 @@ public class AnadirEstudiante extends JFrame {
         });
     }
 
+    /**
+     * Método que añade el alumno suministrado a la lista de alumnos suministrada y cierra la ventana.
+     * @param alumno Objeto de la clase alumno.
+     * @param listaAlumnos lista en que se añadirán los alumnos.
+     */
     private void anadirAlumno(Alumno alumno, ArrayList<Alumno> listaAlumnos) {
         listaAlumnos.add(alumno);
         dispose();
     }
 
+    /**
+     * Método que determina si se puede interactuar con el componente spnConvocatoria.
+     * @param estado establece si se puede o no modificar el componente spnConvocatoria.
+     */
     private void accesoConvocatoria(boolean estado) {
         lblConvocatoria.setEnabled(estado);
         spnConvocatoria.setEnabled(estado);

@@ -4,7 +4,14 @@ import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.util.ArrayList;
-
+/**
+ * AñadirAsignatura muestra una interfaz gráfica
+ * que permite instanciar asignaturas que serán
+ * añadidos a una lista del controlador Aplicación.
+ *
+ * @author Rubén Serrano Cano.
+ * @version 1.0
+ */
 public class AnadirAsignatura extends JFrame {
     private JPanel pnlPrincipal;
     private JLabel lblAnadirAsignatura;
@@ -18,6 +25,7 @@ public class AnadirAsignatura extends JFrame {
         setTitle("Añadir asignatura");
         setContentPane(pnlPrincipal);
         pack();
+        setLocationRelativeTo(null);
         setVisible(true);
 
 
@@ -41,7 +49,11 @@ public class AnadirAsignatura extends JFrame {
             }
         });
     }
-
+    /**
+     * Método que añade la asignatura suministrada a la lista de asignaturas suministrada y cierra la ventana.
+     * @param asignatura Objeto de la clase Asignatura.
+     * @param listaAsignaturas lista en que se añadirán las asignaturas.
+     */
     private void anadirAsignatura(Asignatura asignatura, ArrayList<Asignatura> listaAsignaturas){
         listaAsignaturas.add(asignatura);
         dispose();
