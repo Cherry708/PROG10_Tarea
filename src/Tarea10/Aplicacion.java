@@ -362,7 +362,7 @@ public class Aplicacion {
                     JTextField txtAsignaturaProfesor = new JTextField();
 
                     txtDniProfesor.setText(profesor.getDni());
-                    txtNombreProfesor.setText(profesor.getDni());
+                    txtNombreProfesor.setText(profesor.getNombre());
                     txtAsignaturaProfesor.setText(profesor.getAsignatura());
 
                     pnlListado.add(txtDniProfesor);
