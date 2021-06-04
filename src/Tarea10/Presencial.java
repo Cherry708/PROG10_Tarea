@@ -1,5 +1,6 @@
+package Tarea10;
+
 import java.util.ArrayList;
-import java.util.Arrays;
 
 /**
  * Presencial es una subclase de Alumno para los alumnos

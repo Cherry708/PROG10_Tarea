@@ -1,3 +1,5 @@
+package Tarea10;
+
 /**
  * Profesor es la clase para todos los profesores y tiene
  * atributos y métodos comunes a todos ellos.

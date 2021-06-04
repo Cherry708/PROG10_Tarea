@@ -1,3 +1,5 @@
+package Tarea10;
+
 /**
  * Persona es la clase para todas las personas y cuenta con
  * los atributos y métodos comunes a ellas.

@@ -1,3 +1,5 @@
+package Tarea10;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -21,7 +23,7 @@ public class Aplicacion {
 
     private JPanel pnlPrincipal;
     private JTextField txtBuscar;
-    private JButton btnAñadir;
+    private JButton btnAnadir;
     private JButton btnBuscar;
     private JComboBox cmbOpcion;
     private JPanel pnlListado;
@@ -109,7 +111,7 @@ public class Aplicacion {
         });
 
 
-        btnAñadir.addActionListener(new ActionListener() {
+        btnAnadir.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
 
