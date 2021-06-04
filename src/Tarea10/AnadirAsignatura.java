@@ -48,6 +48,12 @@ public class AnadirAsignatura extends JFrame {
                     anadirAsignatura(asignatura, listaAsignaturas);
             }
         });
+        btnCancelar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                dispose();
+            }
+        });
     }
     /**
      * Método que añade la asignatura suministrada a la lista de asignaturas suministrada y cierra la ventana.

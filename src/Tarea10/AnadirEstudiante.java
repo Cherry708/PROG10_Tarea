@@ -119,6 +119,12 @@ public class AnadirEstudiante extends JFrame {
                 accesoConvocatoria(false);
             }
         });
+        btnCancelar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                dispose();
+            }
+        });
     }
 
     /**
