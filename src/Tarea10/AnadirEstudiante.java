@@ -78,10 +78,10 @@ public class AnadirEstudiante extends JFrame {
                     if (dni.isEmpty() || nombre.isEmpty() || String.valueOf(curso).isEmpty()
                             || nivelAcademico.isEmpty() || String.valueOf(convocatoria).isEmpty() || listaAsignaturasAlumno.isEmpty()){
                         JOptionPane.showMessageDialog(null, "Debes introducir todos los campos.");
-                    } else if ((int)spnCurso.getValue() < 0){
-                        JOptionPane.showMessageDialog(null, "El curso no puede ser negativo.");
-                    } else if ((int)spnConvocatoria.getValue() < 0){
-                        JOptionPane.showMessageDialog(null, "La convocatoria no puede ser negativa.");
+                    } else if ((int)spnCurso.getValue() < 1){
+                        JOptionPane.showMessageDialog(null, "El curso no puede ser negativo ni menor de 1.");
+                    } else if ((int)spnConvocatoria.getValue() < 1){
+                        JOptionPane.showMessageDialog(null, "La convocatoria no puede ser negativa ni menor de 1.");
                     } else
                         anadirAlumno(alumno, listaAlumnos);
 
@@ -99,8 +99,8 @@ public class AnadirEstudiante extends JFrame {
                     if (dni.isEmpty() || nombre.isEmpty() || String.valueOf(curso).isEmpty() || nivelAcademico.isEmpty()
                     || listaAsignaturasAlumno.isEmpty()){
                         JOptionPane.showMessageDialog(null, "Debes introducir todos los campos.");
-                    } else if (curso < 0){
-                        JOptionPane.showMessageDialog(null,"El curso no puede ser negativo.");
+                    } else if (curso < 1){
+                        JOptionPane.showMessageDialog(null,"El curso no puede ser negativo ni menor de 1.");
                     } else
                         anadirAlumno(alumno, listaAlumnos);
                 }

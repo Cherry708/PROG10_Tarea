@@ -42,8 +42,8 @@ public class AnadirAsignatura extends JFrame {
 
                 if (nombre.isEmpty() || String.valueOf(curso).isEmpty()){
                     JOptionPane.showMessageDialog(null, "Debes introducir todos los campos.");
-                } else if (curso < 0){
-                    JOptionPane.showMessageDialog(null, "El curso no puede ser negativo.");
+                } else if (curso < 1){
+                    JOptionPane.showMessageDialog(null, "El curso no puede ser negativo ni menor de 1.");
                 } else
                     anadirAsignatura(asignatura, listaAsignaturas);
             }
